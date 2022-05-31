@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,45 +15,43 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.exception.ProdutoExistenteException;
-import com.example.demo.exception.ProdutoInexistenteException;
-import com.example.demo.model.Produto;
-import com.example.demo.service.ProdutoService;
+import com.example.demo.exception.CategoriaExistenteException;
+import com.example.demo.exception.CategoriaInexistenteException;
+import com.example.demo.model.Categoria;
+import com.example.demo.service.CategoriaService;
 
 @RestController
-@RequestMapping("/produto")
-public class ProdutoController {
+@RequestMapping("/categoria")
+public class CategoriaController {
 	
-
 	@Autowired
-	ProdutoService service;
+	CategoriaService service;
 	
 	@GetMapping
-	public ResponseEntity<List<Produto>> getAll(){
+	public ResponseEntity<List<Categoria>> getAll(){
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Lista de Produtos", "Segue todos os produtos cadastrados");
-		return new ResponseEntity<List<Produto>>(service.listarTudo(),headers,HttpStatus.valueOf(202));
+		return new ResponseEntity<List<Categoria>>(service.listarTudo(),headers,HttpStatus.valueOf(202));
 	}
 	
 	@GetMapping("/{numero}")
-	public Produto getOne(@PathVariable Integer numero) throws ProdutoInexistenteException{
+	public Categoria getOne(@PathVariable Integer numero) throws CategoriaInexistenteException{
 		return service.listarConta(numero);
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> insert(@RequestBody Produto produto) throws ProdutoExistenteException{
-		service.inserir(produto);
+	public ResponseEntity<?> insert(@RequestBody Categoria categoria) throws CategoriaExistenteException{
+		service.inserir(categoria);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/{numero}")
-	public Produto update(@RequestBody Produto produto, @PathVariable Integer numero) throws ProdutoInexistenteException, ProdutoExistenteException{
-		return service.atualizar(produto, numero);
+	public Categoria update(@RequestBody Categoria categoria, @PathVariable Integer numero) throws CategoriaInexistenteException, CategoriaExistenteException{
+		return service.atualizar(categoria, numero);
 	}
 	
 	@DeleteMapping("/{numero}")
-	public void delete(@PathVariable Integer numero) throws ProdutoInexistenteException{
+	public void delete(@PathVariable Integer numero) throws CategoriaInexistenteException{
 		service.deletar(numero);
 	}
-	
 }

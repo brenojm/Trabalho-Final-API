@@ -26,7 +26,7 @@ public class Produto {
 	
 	private Double preco;
 	
-	private Integer quatidadeEstoque;
+	private Integer quantidadeEstoque;
 	
 	@Temporal(TemporalType.DATE)
 	private Date dataCadastro;
@@ -35,14 +35,14 @@ public class Produto {
 	public Produto() {
 		super();
 	}
-	public Produto(Integer id, String nome, String descricao, Double preco, Integer quatidadeEstoque,
+	public Produto(Integer id, String nome, String descricao, Double preco, Integer quantidadeEstoque,
 			Date dataCadastro) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
 		this.preco = preco;
-		this.quatidadeEstoque = quatidadeEstoque;
+		this.quantidadeEstoque = quantidadeEstoque;
 		this.dataCadastro = dataCadastro;
 	}
 	public Integer getId() {
@@ -69,11 +69,11 @@ public class Produto {
 	public void setPreco(Double preco) {
 		this.preco = preco;
 	}
-	public Integer getQuatidadeEstoque() {
-		return quatidadeEstoque;
+	public Integer getQuantidadeEstoque() {
+		return quantidadeEstoque;
 	}
-	public void setQuatidadeEstoque(Integer quatidadeEstoque) {
-		this.quatidadeEstoque = quatidadeEstoque;
+	public void setQuantidadeEstoque(Integer quantidadeEstoque) {
+		this.quantidadeEstoque = quantidadeEstoque;
 	}
 	public Date getDataCadastro() {
 		return dataCadastro;

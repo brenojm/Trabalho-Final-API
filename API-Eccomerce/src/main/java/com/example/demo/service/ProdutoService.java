@@ -13,16 +13,15 @@ import com.example.demo.repository.ProdutoRepository;
 
 @Service
 public class ProdutoService {
-	
+
 	@Autowired
 	ProdutoRepository repositorio;
-
 
 	public List<Produto> listarTudo() {
 		return repositorio.findAll();
 	}
 
-	public Produto listarConta(Integer id) throws ProdutoInexistenteException{
+	public Produto listarConta(Integer id) throws ProdutoInexistenteException {
 		Optional<Produto> optional = repositorio.findById(id);
 		if (optional.isEmpty()) {
 			throw new ProdutoInexistenteException("Produto não cadastrado");
@@ -30,52 +29,57 @@ public class ProdutoService {
 		return optional.get();
 	}
 
-	public void verificarExiste(Produto produto) throws ProdutoExistenteException{
+	public void verificarExiste(Produto produto) throws ProdutoExistenteException {
 		Optional<Produto> optional = repositorio.findByNome(produto.getNome());
 		if (optional.isPresent()) {
 			throw new ProdutoExistenteException("Produto já cadastrado");
 		}
 	}
 
-	public void inserir(Produto produto) throws ProdutoExistenteException{
+	public void inserir(Produto produto) throws ProdutoExistenteException {
 		verificarExiste(produto);
 		repositorio.save(produto);
 	}
 
-	public Produto atualizar(Produto produto, Integer id) throws ProdutoInexistenteException, ProdutoExistenteException{
+	public Produto atualizar(Produto produto, Integer id)
+			throws ProdutoInexistenteException, ProdutoExistenteException {
 		Optional<Produto> optional = repositorio.findById(id);
 		if (optional.isEmpty()) {
 			throw new ProdutoInexistenteException("Produto não cadastrado");
 		}
 		Produto oldProduto = optional.get();
-		if (!produto.getNome().equals("") && produto.getNome() != null) {
-			verificarExiste(produto);
-			oldProduto.setNome(produto.getNome());
+		if (produto.getNome() != null) {
+			if (!produto.getNome().equals("")) {
+				verificarExiste(produto);
+				oldProduto.setNome(produto.getNome());
+			}
 		}
-		if (!produto.getDescricao().equals("") && produto.getDescricao() != null) {
-			oldProduto.setDescricao(produto.getDescricao());
+		if (produto.getDescricao() != null) {
+			if (!produto.getDescricao().equals("")) {
+				oldProduto.setDescricao(produto.getDescricao());
+			}
 		}
+
 		if (produto.getPreco() != null) {
 			oldProduto.setPreco(produto.getPreco());
 		}
-		if (produto.getQuatidadeEstoque() != null) {
-			oldProduto.setQuatidadeEstoque(produto.getQuatidadeEstoque());
+		if (produto.getQuantidadeEstoque() != null) {
+			oldProduto.setQuantidadeEstoque(produto.getQuantidadeEstoque());
 		}
 		if (produto.getDataCadastro() != null) {
 			oldProduto.setDataCadastro(produto.getDataCadastro());
 		}
-		
-		return repositorio.save(produto);
+
+		return repositorio.save(oldProduto);
 
 	}
 
-	public void deletar(Integer id) throws ProdutoInexistenteException{
+	public void deletar(Integer id) throws ProdutoInexistenteException {
 		Optional<Produto> optional = repositorio.findById(id);
 		if (optional.isEmpty()) {
 			throw new ProdutoInexistenteException("Produto não cadastrado");
 		}
 		repositorio.deleteById(id);
 	}
-
 
 }

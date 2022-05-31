@@ -1,11 +1,11 @@
 package com.example.demo.exception;
 
 @SuppressWarnings("serial")
-public class ProdutoInexistenteException extends Exception {
+public class PedidoExistenteException extends Exception {
 	
 	private String message;
-
-	public ProdutoInexistenteException(String message) {
+	
+	public PedidoExistenteException(String message) {
 		super();
 		this.message = message;
 	}
@@ -17,6 +17,4 @@ public class ProdutoInexistenteException extends Exception {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	
-	
 }

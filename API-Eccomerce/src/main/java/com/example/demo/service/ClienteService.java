@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.exception.ClienteExistenteException;
+import com.example.demo.exception.ClienteInexistenteException;
 import com.example.demo.model.Cliente;
 import com.example.demo.repository.ClienteRepository;
 
@@ -19,21 +21,36 @@ public class ClienteService {
 		return repositorio.findAll();
 	}
 	
-	public Cliente listarPorId(Long id) {
-		Optional<Cliente> cliente = repositorio.findById(id);
-		return cliente.get();
+	public Cliente listarPorId(Long id) throws ClienteInexistenteException{
+		Optional<Cliente> optional = repositorio.findById(id);		
+		if (optional.isEmpty()) {
+			throw new ClienteInexistenteException("Cliente inexistente");
+		}
+		return optional.get();
 	}
 	
 	public Cliente create(Cliente cliente) {
 		return repositorio.save(cliente);
 	}
 	
+	public void verificarClienteExiste(Cliente cliente) throws ClienteExistenteException {
+		Optional<Cliente> optional = repositorio.findById(cliente.getId());
+		if (optional.isPresent()) {
+			throw new ClienteExistenteException("Esse cliente ja existe");
+		}	
+	}
+	
     public Cliente update(Cliente cliente,Long id) {
     	cliente.setId(id);
     	return repositorio.save(cliente);
     }
-    public void delete(Long id) {
-    	repositorio.deleteById(id);
+    public void delete(Long id) throws ClienteInexistenteException {
+    	Optional<Cliente> optional = repositorio.findById(id);
+    	if (optional.isEmpty()) {
+			throw new ClienteInexistenteException("Cliente não existe");
+		}
+		repositorio.deleteById(id);
+    	
     	
     }
 }

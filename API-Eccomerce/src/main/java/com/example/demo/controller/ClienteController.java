@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.exception.ClienteInexistenteException;
 import com.example.demo.model.Cliente;
 import com.example.demo.service.ClienteService;
 
@@ -28,10 +29,10 @@ public class ClienteController {
 	}
 	
 	@GetMapping(value = "/{id}")
-	public Cliente findById(@PathVariable Long id) {
+	public Cliente findById(@PathVariable Long id) throws ClienteInexistenteException {
 		return service.listarPorId(id);
 	}
-	
+
 	@PostMapping
 	public Cliente insert(@RequestBody Cliente cliente) {
 		return service.create(cliente);		
@@ -43,7 +44,7 @@ public class ClienteController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public void delete(@PathVariable Long id) {
+	public void delete(@PathVariable Long id) throws ClienteInexistenteException {
 		service.delete(id);
 	}
 	

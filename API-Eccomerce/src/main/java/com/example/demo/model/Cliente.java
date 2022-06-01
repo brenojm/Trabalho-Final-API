@@ -1,7 +1,9 @@
 package com.example.demo.model;
 
 import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -9,11 +11,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+@Entity
 public class Cliente {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long Id;
+	private Long id;
 	
 	private String email;
 	private String userName;
@@ -22,24 +25,26 @@ public class Cliente {
 	private String cpf;
 	private Integer telefone;
 	
-	@OneToMany(mappedBy="cliente")
-    private String id_endereco;
+	//@ManyToOne(mappedBy="cliente")
+    //private Set<Enderco> enderecos;
     
     @Temporal(TemporalType.DATE)
     private Date dataNascimento;
     
+    @OneToMany(mappedBy = "cliente")
+    private Set<Pedido> pedidos;
     
 	public Cliente(Long id, String email, String userName, String senha, String nome, String cpf, Integer telefone,
-			String endereco,Date dataNascimento) {
+			Date dataNascimento) {
 		super();
-		Id = id;
+		this.id = id;
 		this.email = email;
 		this.userName = userName;
 		this.senha = senha;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.telefone = telefone;
-		this.id_endereco = endereco;
+		//this.id_endereco = endereco;
 		this.dataNascimento=dataNascimento;
 	}
 
@@ -48,11 +53,11 @@ public class Cliente {
 	}
 
 	public Long getId() {
-		return Id;
+		return id;
 	}
 
 	public void setId(Long id) {
-		Id = id;
+		this.id = id;
 	}
 
 	public String getEmail() {
@@ -103,13 +108,13 @@ public class Cliente {
 		this.telefone = telefone;
 	}
 
-	public String getId_endereco() {
+	/*public String getId_endereco() {
 		return id_endereco;
 	}
 
 	public void setId_endereco(String id_endereco) {
 		this.id_endereco = id_endereco;
-	}
+	}*/
 
 	public Date getDataNascimento() {
 		return dataNascimento;

@@ -25,7 +25,6 @@ import com.example.demo.service.ProdutoService;
 @RequestMapping("/produto")
 public class ProdutoController {
 	
-
 	@Autowired
 	ProdutoService service;
 	

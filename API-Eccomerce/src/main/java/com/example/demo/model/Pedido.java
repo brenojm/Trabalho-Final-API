@@ -7,6 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Pedido {
@@ -17,24 +20,36 @@ public class Pedido {
 	
 	private Integer numPedido;
 	
+	@OneToMany
 	private  Set<Produto> produtos;
 	
 	private Double valorTotalPed;
 	
 	private Date dataPedido;
+	
+	private Date dataEntrega;
+	
+	private String status;
+	
+	@ManyToOne()
+	@JoinColumn(name = "cliente_id",
+				referencedColumnName = "id")
+	private Cliente cliente;
 
 	public Pedido() {
 		super();
 
 	}
 
-	public Pedido(Integer id, Integer numPedido, Set<Produto> produtos, Double valorTotalPed, Date dataPedido) {
+	public Pedido(Integer id, Integer numPedido, Set<Produto> produtos, Double valorTotalPed, Date dataPedido, Date dataEntrega, String status) {
 		super();
 		this.id = id;
 		this.numPedido = numPedido;
 		this.produtos = produtos;
 		this.valorTotalPed = valorTotalPed;
 		this.dataPedido = dataPedido;
+		this.dataEntrega = dataEntrega;
+		this.status = status;
 	}
 
 	public Integer getId() {
@@ -75,5 +90,21 @@ public class Pedido {
 
 	public void setDataPedido(Date dataPedido) {
 		this.dataPedido = dataPedido;
+	}
+
+	public Date getDataEntrega() {
+		return dataEntrega;
+	}
+
+	public void setDataEntrega(Date dataEntrega) {
+		this.dataEntrega = dataEntrega;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 }

@@ -1,7 +1,7 @@
 package com.example.demo.exception;
 
 @SuppressWarnings("serial")
-public class UserInexistenteException extends Exception{
+public class UsuarioInexistenteException extends Exception{
 
 	private String message;
 
@@ -13,7 +13,7 @@ public class UserInexistenteException extends Exception{
 		this.message = message;
 	}
 
-	public UserInexistenteException(String message) {
+	public UsuarioInexistenteException(String message) {
 		super();
 		this.message = message;
 	}

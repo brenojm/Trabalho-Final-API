@@ -6,25 +6,25 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.exception.UserExistenteException;
-import com.example.demo.exception.UserInexistenteException;
+import com.example.demo.exception.UsuarioExistenteException;
+import com.example.demo.exception.UsuarioInexistenteException;
 import com.example.demo.model.Usuario;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.UsuarioRepository;
 
 @Service
-public  class UserService {
+public  class UsuarioService {
 	
 	@Autowired
-	UserRepository repositorio;
+	UsuarioRepository repositorio;
 	
 	public List<Usuario> listarTudo(){
 		return repositorio.findAll();
 	}
 	
-	public Usuario listarPorId(Integer idUsuario) throws UserInexistenteException{
+	public Usuario listarPorId(Integer idUsuario) throws UsuarioInexistenteException{
 		Optional<Usuario> optional = repositorio.findById(idUsuario);		
 		if (optional.isEmpty()) {
-			throw new UserInexistenteException("User inexistente");
+			throw new UsuarioInexistenteException("User inexistente");
 		}
 		return optional.get();
 	}
@@ -33,10 +33,10 @@ public  class UserService {
 		return repositorio.save(usuario);
 	}
 	
-	public void verificarClienteExiste(Usuario usuario) throws UserExistenteException {
+	public void verificarClienteExiste(Usuario usuario) throws UsuarioExistenteException {
 		Optional<Usuario> optional = repositorio.findById(usuario.getIdUsuario());
 		if (optional.isPresent()) {
-			throw new UserExistenteException("Esse user ja existe");
+			throw new UsuarioExistenteException("Esse user ja existe");
 		}	
 	}
 	
@@ -44,10 +44,10 @@ public  class UserService {
     	usuario.setIdUsuario(idUsuario);
     	return repositorio.save(usuario);
     }
-    public void delete(Integer idUsuario) throws UserInexistenteException {
+    public void delete(Integer idUsuario) throws UsuarioInexistenteException {
     	Optional<Usuario> optional = repositorio.findById(idUsuario);
     	if (optional.isEmpty()) {
-			throw new UserInexistenteException("User não existe");
+			throw new UsuarioInexistenteException("User não existe");
 		}
 		repositorio.deleteById(idUsuario);
     }

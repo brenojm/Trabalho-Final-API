@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.exception.UserInexistenteException;
+import com.example.demo.exception.UsuarioInexistenteException;
 import com.example.demo.model.Usuario;
-import com.example.demo.service.UserService;
+import com.example.demo.service.UsuarioService;
 
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class UsuarioController {
 	
 	@Autowired
-    UserService service;
+    UsuarioService service;
 
     @GetMapping
     public List<Usuario> findAll(){
@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/{id}")
-    public Usuario findById(@PathVariable Integer id) throws UserInexistenteException {
+    public Usuario findById(@PathVariable Integer id) throws UsuarioInexistenteException {
         return service.listarPorId(id);
     }
 
@@ -44,7 +44,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id) throws UserInexistenteException {
+    public void delete(@PathVariable Integer id) throws UsuarioInexistenteException {
         service.delete(id);
     }
 }

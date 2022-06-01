@@ -18,7 +18,7 @@ import com.example.demo.service.ClienteService;
 
 @RestController
 @RequestMapping("/cliente")
-public class ClienteController {
+public class ClienteController{
 
 	@Autowired
 	ClienteService service;
@@ -29,7 +29,7 @@ public class ClienteController {
 	}
 	
 	@GetMapping(value = "/{id}")
-	public Cliente findById(@PathVariable Long id) throws ClienteInexistenteException {
+	public Cliente findById(@PathVariable Integer id) throws ClienteInexistenteException {
 		return service.listarPorId(id);
 	}
 
@@ -39,12 +39,12 @@ public class ClienteController {
 	}
 	
 	@PutMapping("/{id}")
-	public Cliente update(@RequestBody Cliente cliente,@PathVariable Long id) {
+	public Cliente update(@RequestBody Cliente cliente,@PathVariable Integer id) {
 		return service.update(cliente, id);
 	}
 	
 	@DeleteMapping("/{id}")
-	public void delete(@PathVariable Long id) throws ClienteInexistenteException {
+	public void delete(@PathVariable Integer id) throws ClienteInexistenteException {
 		service.delete(id);
 	}
 	

@@ -37,7 +37,7 @@ public class ProdutoController {
 	
 	@GetMapping("/{numero}")
 	public Produto getOne(@PathVariable Integer numero) throws ProdutoInexistenteException{
-		return service.listarConta(numero);
+		return service.listarProduto(numero);
 	}
 	
 	@PostMapping

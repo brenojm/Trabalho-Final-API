@@ -1,5 +1,6 @@
 package com.example.demo.exception;
 
+@SuppressWarnings("serial")
 public class ClienteExistenteException extends Exception{
 	
 	private String message;

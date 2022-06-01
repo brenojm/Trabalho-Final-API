@@ -1,13 +1,9 @@
 package com.example.demo.exception;
 
 @SuppressWarnings("serial")
-public class CategoriaInexistenteException extends Exception {
-private String message;
-	
-	public CategoriaInexistenteException(String message) {
-		super();
-		this.message = message;
-	}
+public class UserInexistenteException extends Exception{
+
+	private String message;
 
 	public String getMessage() {
 		return message;
@@ -16,4 +12,10 @@ private String message;
 	public void setMessage(String message) {
 		this.message = message;
 	}
+
+	public UserInexistenteException(String message) {
+		super();
+		this.message = message;
+	}
+
 }

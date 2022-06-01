@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
 import java.util.Date;
-import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 @Entity
 public class Pedido {
@@ -19,9 +17,6 @@ public class Pedido {
 	private Integer id;
 	
 	private Integer numPedido;
-	
-	@OneToMany
-	private  Set<Produto> produtos;
 	
 	private Double valorTotalPed;
 	
@@ -41,11 +36,10 @@ public class Pedido {
 
 	}
 
-	public Pedido(Integer id, Integer numPedido, Set<Produto> produtos, Double valorTotalPed, Date dataPedido, Date dataEntrega, String status) {
+	public Pedido(Integer id, Integer numPedido, Double valorTotalPed, Date dataPedido, Date dataEntrega, String status) {
 		super();
 		this.id = id;
 		this.numPedido = numPedido;
-		this.produtos = produtos;
 		this.valorTotalPed = valorTotalPed;
 		this.dataPedido = dataPedido;
 		this.dataEntrega = dataEntrega;
@@ -66,14 +60,6 @@ public class Pedido {
 
 	public void setNumPedido(Integer numPedido) {
 		this.numPedido = numPedido;
-	}
-
-	public Set<Produto> getProdutos() {
-		return produtos;
-	}
-
-	public void setProdutos(Set<Produto> produtos) {
-		this.produtos = produtos;
 	}
 
 	public Double getValorTotalPed() {

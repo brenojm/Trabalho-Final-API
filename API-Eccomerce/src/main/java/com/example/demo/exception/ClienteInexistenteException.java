@@ -1,7 +1,8 @@
 package com.example.demo.exception;
 
-public class ClienteInexistenteException extends Exception{
-
+@SuppressWarnings("serial")
+public class ClienteInexistenteException extends Exception {
+	
 	private String message;
 
 	public String getMessage() {
@@ -20,5 +21,4 @@ public class ClienteInexistenteException extends Exception{
 	public ClienteInexistenteException() {
 		super();
 	}
-	
 }

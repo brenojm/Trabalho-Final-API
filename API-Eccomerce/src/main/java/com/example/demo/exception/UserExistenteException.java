@@ -1,19 +1,20 @@
 package com.example.demo.exception;
 
 @SuppressWarnings("serial")
-public class CategoriaInexistenteException extends Exception {
-private String message;
+public class UserExistenteException extends Exception {
 	
-	public CategoriaInexistenteException(String message) {
-		super();
-		this.message = message;
-	}
+	private String message;
 
 	public String getMessage() {
 		return message;
 	}
 
 	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public UserExistenteException(String message) {
+		super();
 		this.message = message;
 	}
 }

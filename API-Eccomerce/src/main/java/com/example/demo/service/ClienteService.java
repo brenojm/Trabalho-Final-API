@@ -21,15 +21,15 @@ public class ClienteService {
 		return repositorio.findAll();
 	}
 	
-	public Cliente listarPorId(Long id) throws ClienteInexistenteException{
-		Optional<Cliente> optional = repositorio.findById(id);		
+	public Cliente listarPorId(Integer id) throws ClienteInexistenteException{
+		Optional< Cliente> optional = repositorio.findById(id);		
 		if (optional.isEmpty()) {
 			throw new ClienteInexistenteException("Cliente inexistente");
 		}
 		return optional.get();
 	}
 	
-	public Cliente create(Cliente cliente) {
+	public  Cliente create( Cliente cliente) {
 		return repositorio.save(cliente);
 	}
 	
@@ -40,11 +40,11 @@ public class ClienteService {
 		}	
 	}
 	
-    public Cliente update(Cliente cliente,Long id) {
+    public Cliente update(Cliente cliente, Integer id) {
     	cliente.setId(id);
     	return repositorio.save(cliente);
     }
-    public void delete(Long id) throws ClienteInexistenteException {
+    public void delete(Integer id) throws ClienteInexistenteException {
     	Optional<Cliente> optional = repositorio.findById(id);
     	if (optional.isEmpty()) {
 			throw new ClienteInexistenteException("Cliente não existe");

@@ -53,10 +53,6 @@ public class PedidoService {
 				oldPedido.setNumPedido(pedido.getNumPedido());
 		}
 		
-		if (pedido.getProdutos() != null) {
-			oldPedido.setProdutos(pedido.getProdutos());
-		}
-		
 		if (pedido.getValorTotalPed() != null) {
 			oldPedido.setValorTotalPed(pedido.getValorTotalPed());
 		}

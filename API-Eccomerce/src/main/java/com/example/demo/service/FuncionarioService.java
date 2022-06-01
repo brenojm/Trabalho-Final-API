@@ -8,10 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.exception.FuncionarioExistenteException;
 import com.example.demo.exception.FuncionarioInexistenteException;
-import com.example.demo.exception.ProdutoExistenteException;
-import com.example.demo.exception.ProdutoInexistenteException;
 import com.example.demo.model.Funcionario;
-import com.example.demo.model.Produto;
 import com.example.demo.repository.FuncionarioRepository;
 
 @Service
@@ -42,28 +39,12 @@ public class FuncionarioService {
 			throw new FuncionarioInexistenteException("Funcionario não cadastrado");
 		}
 		Funcionario oldFuncionario = optional.get();
-		if (Funcionario.getNome() != null) {
-			if (!Funcionario.getNome().equals("")) {
+		if (funcionario.getNome() != null) {
+			if (!funcionario.getNome().equals("")) {
 				verificarExiste(funcionario);
-				oldFuncionario.setNome(Funcionario.getNome());
+				oldFuncionario.setNome(funcionario.getNome());
 			}
 			// CPF aqui (?)
-		}
-		if (funcionario.getEmail() != null) {
-			if (!funcionario.getEmail().equals("")) {
-				oldFuncionario.setEmail(funcionario.getEmail());
-			}
-		}
-
-		if (funcionario.getUserName() != null) {
-			if (!funcionario.getUserName().equals("")) {
-				oldFuncionario.setUserName(funcionario.getUserName());
-			}
-		}
-		if (funcionario.getSenha() != null) {
-			if (!funcionario.getSenha().equals("")) {
-				oldFuncionario.setSenha(funcionario.getSenha());
-			}
 		}
 		if (funcionario.getTelefone() != null) {
 			if (!funcionario.getTelefone().equals("")) {

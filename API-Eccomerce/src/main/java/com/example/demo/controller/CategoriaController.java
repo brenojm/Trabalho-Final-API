@@ -36,7 +36,7 @@ public class CategoriaController {
 	
 	@GetMapping("/{numero}")
 	public Categoria getOne(@PathVariable Integer numero) throws CategoriaInexistenteException{
-		return service.listarConta(numero);
+		return service.listarCategoria(numero);
 	}
 	
 	@PostMapping

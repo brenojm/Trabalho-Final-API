@@ -16,11 +16,8 @@ public class Cliente {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	
-	private String email;
-	private String userName;
-	private String senha;
 	private String nome;
 	private String cpf;
 	private Integer telefone;
@@ -34,54 +31,27 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente")
     private Set<Pedido> pedidos;
     
-	public Cliente(Long id, String email, String userName, String senha, String nome, String cpf, Integer telefone,
-			Date dataNascimento) {
-		super();
-		this.id = id;
-		this.email = email;
-		this.userName = userName;
-		this.senha = senha;
-		this.nome = nome;
-		this.cpf = cpf;
-		this.telefone = telefone;
-		//this.id_endereco = endereco;
-		this.dataNascimento=dataNascimento;
-	}
-
 	public Cliente() {
 		super();
 	}
 
-	public Long getId() {
+	public Cliente(Integer idUsuario, String email, String userName, String senha, char role, Integer id, String nome,
+			String cpf, Integer telefone, Date dataNascimento, Set<Pedido> pedidos) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.cpf = cpf;
+		this.telefone = telefone;
+		this.dataNascimento = dataNascimento;
+		this.pedidos = pedidos;
+	}
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
 	}
 
 	public String getNome() {
@@ -108,14 +78,6 @@ public class Cliente {
 		this.telefone = telefone;
 	}
 
-	/*public String getId_endereco() {
-		return id_endereco;
-	}
-
-	public void setId_endereco(String id_endereco) {
-		this.id_endereco = id_endereco;
-	}*/
-
 	public Date getDataNascimento() {
 		return dataNascimento;
 	}
@@ -123,8 +85,14 @@ public class Cliente {
 	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
-	
-	    
+
+	public Set<Pedido> getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(Set<Pedido> pedidos) {
+		this.pedidos = pedidos;
+	}    
 }
 
 

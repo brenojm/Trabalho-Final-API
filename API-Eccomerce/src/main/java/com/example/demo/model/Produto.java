@@ -1,12 +1,14 @@
 package com.example.demo.model;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -15,7 +17,7 @@ public class Produto {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idProduto;
+	private Integer id;
 	
 	@Column(unique = true)
 	private String nome;
@@ -30,24 +32,32 @@ public class Produto {
 	private Date dataCadastro;
 	// imagem
 	
+	@OneToMany(mappedBy = "produto")
+	private Set<PedidoProduto> pedidoProdutos;
+	
+	
 	public Produto() {
 		super();
 	}
+	
 	public Produto(Integer id, String nome, String descricao, Double preco, Integer quantidadeEstoque,
-			Date dataCadastro) {
+			Date dataCadastro, Set<PedidoProduto> pedidoProdutos) {
 		super();
-		this.idProduto = id;
+		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
 		this.preco = preco;
 		this.quantidadeEstoque = quantidadeEstoque;
 		this.dataCadastro = dataCadastro;
+		this.pedidoProdutos = pedidoProdutos;
 	}
+
+	
 	public Integer getId() {
-		return idProduto;
+		return id;
 	}
 	public void setId(Integer id) {
-		this.idProduto = id;
+		this.id = id;
 	}
 	public String getNome() {
 		return nome;
@@ -78,6 +88,13 @@ public class Produto {
 	}
 	public void setDataCadastro(Date dataCadastro) {
 		this.dataCadastro = dataCadastro;
+	}
+	
+	public Set<PedidoProduto> getPedidoProdutos() {
+		return pedidoProdutos;
+	}
+	public void setPedidoProdutos(Set<PedidoProduto> pedidoProdutos) {
+		this.pedidoProdutos = pedidoProdutos;
 	}
 	
 	

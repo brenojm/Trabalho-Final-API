@@ -21,7 +21,7 @@ public class ProdutoService {
 		return repositorio.findAll();
 	}
 
-	public Produto listarConta(Integer id) throws ProdutoInexistenteException {
+	public Produto listarProduto(Integer id) throws ProdutoInexistenteException {
 		Optional<Produto> optional = repositorio.findById(id);
 		if (optional.isEmpty()) {
 			throw new ProdutoInexistenteException("Produto não cadastrado");

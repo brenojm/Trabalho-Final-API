@@ -21,7 +21,7 @@ public class CategoriaService {
 		return repositorio.findAll();
 	}
 
-	public Categoria listarConta(Integer id) throws CategoriaInexistenteException{
+	public Categoria listarCategoria(Integer id) throws CategoriaInexistenteException{
 		Optional<Categoria> optional = repositorio.findById(id);
 		if (optional.isEmpty()) {
 			throw new CategoriaInexistenteException("Categoria não existente");

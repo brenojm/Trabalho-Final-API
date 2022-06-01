@@ -24,9 +24,7 @@ import com.example.demo.service.PedidoService;
 @RequestMapping("/pedido")
 public class PedidoController {
 	
-
 	@Autowired
-	
 	PedidoService service;
 	
 	@GetMapping

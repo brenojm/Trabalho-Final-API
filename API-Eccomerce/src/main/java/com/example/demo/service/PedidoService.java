@@ -64,7 +64,14 @@ public class PedidoService {
 		if (pedido.getDataPedido() != null) {
 			oldPedido.setDataPedido(pedido.getDataPedido());
 		}
-
+		
+		if(pedido.getDataEntrega() != null) {
+			oldPedido.setDataEntrega(pedido.getDataEntrega());
+		}
+		
+		if(pedido.getStatus() != null) {
+			oldPedido.setStatus(pedido.getStatus());
+		}
 		return repositorio.save(oldPedido);
 
 	}

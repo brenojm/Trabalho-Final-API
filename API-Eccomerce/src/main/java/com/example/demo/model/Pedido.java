@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -8,8 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 @Entity
 public class Pedido {
@@ -20,8 +22,6 @@ public class Pedido {
 	
 	private Integer numPedido;
 	
-	@OneToMany
-	private  Set<Produto> produtos;
 	
 	private Double valorTotalPed;
 	
@@ -35,6 +35,12 @@ public class Pedido {
 	@JoinColumn(name = "cliente_id",
 				referencedColumnName = "id")
 	private Cliente cliente;
+	
+	@ManyToMany
+    @JoinTable( name = "pedido_produto",
+                joinColumns = @JoinColumn(referencedColumnName = "id", name = "pedidoId"),
+                inverseJoinColumns = @JoinColumn(referencedColumnName = "id", name = "produtoId"))
+    public List<Produto> produtos;
 
 	public Pedido() {
 		super();
@@ -45,7 +51,6 @@ public class Pedido {
 		super();
 		this.id = id;
 		this.numPedido = numPedido;
-		this.produtos = produtos;
 		this.valorTotalPed = valorTotalPed;
 		this.dataPedido = dataPedido;
 		this.dataEntrega = dataEntrega;
@@ -68,13 +73,6 @@ public class Pedido {
 		this.numPedido = numPedido;
 	}
 
-	public Set<Produto> getProdutos() {
-		return produtos;
-	}
-
-	public void setProdutos(Set<Produto> produtos) {
-		this.produtos = produtos;
-	}
 
 	public Double getValorTotalPed() {
 		return valorTotalPed;

@@ -14,26 +14,50 @@ import javax.persistence.Table;
 public class PedidoProduto implements Serializable {
 
 	@EmbeddedId
-	public PedidoProdutoId pedidoProdutoId;
+	private PedidoProdutoId pedidoProdutoId;
 
-	// Our extra column
-	public Instant createdDate;
+	
+	private Integer quantidade;
+	
+	private Double preco;
+	
+	
 
-	public PedidoProduto() {
+	private PedidoProduto() {
 	}
 
-	public PedidoProduto(Pedido pedido, Produto produto) {
+	private PedidoProduto(Pedido pedido, Produto produto, Integer quantidade, Double preco) {
 		pedidoProdutoId = new PedidoProduto.PedidoProdutoId();
 		pedidoProdutoId.pedidoId = pedido.getId();
 		pedidoProdutoId.produtoId = produto.getId();
-		createdDate = Instant.now();
+		this.quantidade = quantidade;
+		this.preco = preco;
+		
 	}
+	
+	
+	public Integer getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(Integer quantidade) {
+		this.quantidade = quantidade;
+	}
+
+	public Double getPreco() {
+		return preco;
+	}
+
+	public void setPreco(Double preco) {
+		this.preco = preco;
+	}
+
 
 	@Embeddable
 	public static class PedidoProdutoId implements Serializable {
 
-		public Integer pedidoId;
-		public Integer produtoId;
+		private Integer pedidoId;
+		private Integer produtoId;
 
 		@Override
 		public boolean equals(Object o) {

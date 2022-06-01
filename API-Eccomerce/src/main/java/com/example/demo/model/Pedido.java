@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Pedido {
@@ -26,6 +28,9 @@ public class Pedido {
 	
 	private String status;
 	
+	@OneToMany(mappedBy = "pedido")
+	private Set<PedidoProduto> pedidoProdutos;
+	
 	@ManyToOne()
 	@JoinColumn(name = "cliente_id",
 				referencedColumnName = "id")
@@ -36,7 +41,10 @@ public class Pedido {
 
 	}
 
-	public Pedido(Integer id, Integer numPedido, Double valorTotalPed, Date dataPedido, Date dataEntrega, String status) {
+	
+
+	public Pedido(Integer id, Integer numPedido, Double valorTotalPed, Date dataPedido, Date dataEntrega, String status,
+			Set<PedidoProduto> pedidoProdutos, Cliente cliente) {
 		super();
 		this.id = id;
 		this.numPedido = numPedido;
@@ -44,7 +52,35 @@ public class Pedido {
 		this.dataPedido = dataPedido;
 		this.dataEntrega = dataEntrega;
 		this.status = status;
+		this.pedidoProdutos = pedidoProdutos;
+		this.cliente = cliente;
 	}
+
+
+
+	public Set<PedidoProduto> getPedidoProdutos() {
+		return pedidoProdutos;
+	}
+
+
+
+	public void setPedidoProdutos(Set<PedidoProduto> pedidoProdutos) {
+		this.pedidoProdutos = pedidoProdutos;
+	}
+
+
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+
 
 	public Integer getId() {
 		return id;

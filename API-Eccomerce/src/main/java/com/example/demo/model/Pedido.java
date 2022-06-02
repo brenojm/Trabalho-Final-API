@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Pedido {
@@ -22,8 +24,10 @@ public class Pedido {
 	
 	private Double valorTotalPed;
 	
+	@Temporal(TemporalType.DATE)
 	private Date dataPedido;
 	
+	@Temporal(TemporalType.DATE)
 	private Date dataEntrega;
 	
 	private String status;

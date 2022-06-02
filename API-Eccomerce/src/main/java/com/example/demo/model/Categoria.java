@@ -1,9 +1,12 @@
 package com.example.demo.model;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Categoria {
@@ -15,16 +18,20 @@ public class Categoria {
 	private String nome;
 	
 	private String descricao;
+	
+	@OneToMany(mappedBy = "categoria")
+	private Set<Produto> produtos;
 
 	public Categoria() {
 		super();
 	}
 
-	public Categoria(Integer id, String nome, String descricao) {
+	public Categoria(Integer id, String nome, String descricao, Set<Produto> produtos) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
+		this.produtos = produtos;
 	}
 
 	public Integer getId() {
@@ -50,6 +57,12 @@ public class Categoria {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	
-	
+
+	public Set<Produto> getProdutos() {
+		return produtos;
+	}
+
+	public void setProdutos(Set<Produto> produtos) {
+		this.produtos = produtos;
+	}
 }

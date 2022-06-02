@@ -26,9 +26,9 @@ public class FuncionarioService {
 		return funcionario.get();
 	}
 
-	public Funcionario create(Funcionario funcionario) throws FuncionarioInexistenteException {
+	public Funcionario create(Funcionario funcionario) throws FuncionarioExistenteException {
 		verificarExiste(funcionario);
-		return funcionario;
+		return repositorio.save(funcionario);
 	}
 
 	// Realizar tratamentos conforme exemplo no 'ProdutoService'
@@ -56,10 +56,10 @@ public class FuncionarioService {
 	}
 	
 
-	private void verificarExiste(Funcionario funcionario) throws FuncionarioInexistenteException {
-		Optional<Funcionario> optional = repositorio.findById(funcionario.getIdFuncionario());
-		if (optional.isEmpty()) {
-			throw new FuncionarioInexistenteException("Funcionario não existe");
+	private void verificarExiste(Funcionario funcionario) throws FuncionarioExistenteException {
+		Optional<Funcionario> optional = repositorio.findByIdFuncionario(funcionario.getIdFuncionario());
+		if (optional.isPresent()) {
+			throw new FuncionarioExistenteException("Funcionario já existe");
 		}
 		repositorio.save(funcionario);
 

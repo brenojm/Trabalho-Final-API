@@ -38,7 +38,7 @@ public class FuncionarioController {
 
 	@PostMapping
 	public ResponseEntity<Funcionario> insert(@RequestBody Funcionario funcionario)
-			throws FuncionarioInexistenteException {
+			throws FuncionarioExistenteException {
 		return new ResponseEntity<Funcionario>(service.create(funcionario), HttpStatus.CREATED);
 	}
 

@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.exception.CategoriaInexistenteException;
 import com.example.demo.exception.ProdutoExistenteException;
 import com.example.demo.exception.ProdutoInexistenteException;
 import com.example.demo.model.Produto;
@@ -16,13 +17,20 @@ public class ProdutoService {
 
 	@Autowired
 	ProdutoRepository repositorio;
+	
+	@Autowired
+	CategoriaService serviceCat;
+	
+	@Autowired
+	FuncionarioService serviceFun;
+	
 
 	public List<Produto> listarTudo() {
 		return repositorio.findAll();
 	}
 
-	public Produto listarProduto(Integer id) throws ProdutoInexistenteException {
-		Optional<Produto> optional = repositorio.findById(id);
+	public Produto listarProduto(Integer numero) throws ProdutoInexistenteException {
+		Optional<Produto> optional = repositorio.findById(numero);
 		if (optional.isEmpty()) {
 			throw new ProdutoInexistenteException("Produto não cadastrado");
 		}
@@ -36,9 +44,14 @@ public class ProdutoService {
 		}
 	}
 
-	public void inserir(Produto produto) throws ProdutoExistenteException {
+	public Produto inserir(Produto produto) throws ProdutoExistenteException, CategoriaInexistenteException {
 		verificarExiste(produto);
-		repositorio.save(produto);
+		
+		//produto.setCategoria(serviceCat.listarCategoria(produto.getCategoria().getId()));
+		
+		//produto.setFuncionario(serviceFun.listarPorId(produto.getFuncionario().getIdFuncionario()));
+		
+		return repositorio.save(produto);
 	}
 
 	public Produto atualizar(Produto produto, Integer id)

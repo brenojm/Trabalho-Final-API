@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.exception.CategoriaInexistenteException;
 import com.example.demo.exception.ProdutoExistenteException;
 import com.example.demo.exception.ProdutoInexistenteException;
 import com.example.demo.model.Produto;
@@ -40,9 +41,9 @@ public class ProdutoController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> insert(@RequestBody Produto produto) throws ProdutoExistenteException {
+	public ResponseEntity<Produto> insert(@RequestBody Produto produto) throws ProdutoExistenteException, CategoriaInexistenteException {
 		service.inserir(produto);
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		return new ResponseEntity<>(produto, HttpStatus.CREATED);
 	}
 
 	@PutMapping("/{numero}")

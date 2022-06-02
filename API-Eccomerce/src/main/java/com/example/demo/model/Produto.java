@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -35,13 +37,22 @@ public class Produto {
 	@OneToMany(mappedBy = "produto")
 	private Set<PedidoProduto> pedidoProdutos;
 	
+	@ManyToOne
+	@JoinColumn(name = "categoria_id",
+				referencedColumnName = "id")	
+	private Categoria categoria;
+	
+	@ManyToOne
+	@JoinColumn(name = "funcionario_id",
+				referencedColumnName = "funcionario_id")	
+	private Funcionario funcionario;
 	
 	public Produto() {
 		super();
 	}
 	
 	public Produto(Integer id, String nome, String descricao, Double preco, Integer quantidadeEstoque,
-			Date dataCadastro, Set<PedidoProduto> pedidoProdutos) {
+			Date dataCadastro, Set<PedidoProduto> pedidoProdutos, Categoria categoria, Funcionario funcionario) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -50,6 +61,8 @@ public class Produto {
 		this.quantidadeEstoque = quantidadeEstoque;
 		this.dataCadastro = dataCadastro;
 		this.pedidoProdutos = pedidoProdutos;
+		this.categoria = categoria;
+		this.funcionario = funcionario;
 	}
 
 	
@@ -96,8 +109,20 @@ public class Produto {
 	public void setPedidoProdutos(Set<PedidoProduto> pedidoProdutos) {
 		this.pedidoProdutos = pedidoProdutos;
 	}
-	
-	
-	
-	
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+
+	public Funcionario getFuncionario() {
+		return funcionario;
+	}
+
+	public void setFuncionario(Funcionario funcionario) {
+		this.funcionario = funcionario;
+	}
 }

@@ -7,7 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -31,12 +33,16 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente")
     private Set<Pedido> pedidos;
     
+    @OneToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+    
 	public Cliente() {
 		super();
 	}
 
 	public Cliente(Integer idUsuario, String email, String userName, String senha, char role, Integer id, String nome,
-			String cpf, Integer telefone, Date dataNascimento, Set<Pedido> pedidos) {
+			String cpf, Integer telefone, Date dataNascimento, Set<Pedido> pedidos, Usuario usuario) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -44,6 +50,7 @@ public class Cliente {
 		this.telefone = telefone;
 		this.dataNascimento = dataNascimento;
 		this.pedidos = pedidos;
+		this.usuario = usuario;
 	}
 
 	public Integer getId() {
@@ -92,7 +99,17 @@ public class Cliente {
 
 	public void setPedidos(Set<Pedido> pedidos) {
 		this.pedidos = pedidos;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}    
+	
+	
 }
 
 

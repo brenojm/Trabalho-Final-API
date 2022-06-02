@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,32 +21,33 @@ import com.example.demo.service.UsuarioService;
 @RestController
 @RequestMapping("/user")
 public class UsuarioController {
-	
+
 	@Autowired
-    UsuarioService service;
+	UsuarioService service;
 
-    @GetMapping
-    public List<Usuario> findAll(){
-        return service.listarTudo();
-    }
+	@GetMapping
+	public ResponseEntity<List<Usuario>> findAll() {
+		return new ResponseEntity<List<Usuario>>(service.listarTudo(), HttpStatus.ACCEPTED);
+	}
 
-    @GetMapping(value = "/{id}")
-    public Usuario findById(@PathVariable Integer id) throws UsuarioInexistenteException {
-        return service.listarPorId(id);
-    }
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<Usuario> findById(@PathVariable Integer id) throws UsuarioInexistenteException {
+		return new ResponseEntity<Usuario>(service.listarPorId(id), HttpStatus.OK);
+	}
 
-    @PostMapping
-    public Usuario insert(@RequestBody Usuario usuario) {
-        return service.create(usuario);
-    }
+	@PostMapping
+	public ResponseEntity<Usuario> insert(@RequestBody Usuario usuario) {
+		return new ResponseEntity<Usuario>(service.create(usuario), HttpStatus.CREATED);
+	}
 
-    @PutMapping("/{id}")
-    public Usuario update(@RequestBody Usuario usuario,@PathVariable Integer id) {
-        return service.update(usuario, id);
-    }
+	@PutMapping("/{id}")
+	public ResponseEntity<Usuario> update(@RequestBody Usuario usuario, @PathVariable Integer id) {
+		return new ResponseEntity<Usuario>(service.update(usuario, id), HttpStatus.OK);
+	}
 
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id) throws UsuarioInexistenteException {
-        service.delete(id);
-    }
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> delete(@PathVariable Integer id) throws UsuarioInexistenteException {
+		service.delete(id);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 }

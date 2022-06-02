@@ -23,36 +23,38 @@ import com.example.demo.service.PedidoService;
 @RestController
 @RequestMapping("/pedido")
 public class PedidoController {
-	
+
 	@Autowired
 	PedidoService service;
-	
+
 	@GetMapping
-	public ResponseEntity<List<Pedido>> getAll(){
+	public ResponseEntity<List<Pedido>> getAll() {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Lista de Pedidos", "Segue todos os pedidos cadastrados");
-		return new ResponseEntity<List<Pedido>>(service.listarTudo(),headers,HttpStatus.valueOf(202));
+		return new ResponseEntity<List<Pedido>>(service.listarTudo(), headers, HttpStatus.ACCEPTED);
 	}
-	
+
 	@GetMapping("/{numero}")
-	public Pedido getOne(@PathVariable Integer numero) throws PedidoInexistenteException{
-		return service.listarPedido(numero);
+	public ResponseEntity<Pedido> getOne(@PathVariable Integer numero) throws PedidoInexistenteException {
+		return new ResponseEntity<Pedido>(service.listarPedido(numero), HttpStatus.OK);
 	}
-	
+
 	@PostMapping
-	public ResponseEntity<?> insert(@RequestBody Pedido pedido) throws PedidoExistenteException{
+	public ResponseEntity<?> insert(@RequestBody Pedido pedido) throws PedidoExistenteException {
 		service.inserir(pedido);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
-	
+
 	@PutMapping("/{numero}")
-	public Pedido update(@RequestBody Pedido pedido, @PathVariable Integer numero) throws PedidoInexistenteException, PedidoExistenteException{
-		return service.atualizar(pedido, numero);
+	public ResponseEntity<Pedido> update(@RequestBody Pedido pedido, @PathVariable Integer numero)
+			throws PedidoInexistenteException, PedidoExistenteException {
+		return new ResponseEntity<Pedido>(service.atualizar(pedido, numero), HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/{numero}")
-	public void delete(@PathVariable Integer numero) throws PedidoInexistenteException{
+	public ResponseEntity<?> delete(@PathVariable Integer numero) throws PedidoInexistenteException {
 		service.deletar(numero);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
+
 }

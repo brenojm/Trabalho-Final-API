@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,36 +23,38 @@ import com.example.demo.service.ProdutoService;
 @RestController
 @RequestMapping("/produto")
 public class ProdutoController {
-	
+
 	@Autowired
 	ProdutoService service;
-	
+
 	@GetMapping
-	public ResponseEntity<List<Produto>> getAll(){
+	public ResponseEntity<List<Produto>> getAll() {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Lista de Produtos", "Segue todos os produtos cadastrados");
-		return new ResponseEntity<List<Produto>>(service.listarTudo(),headers,HttpStatus.valueOf(202));
+		return new ResponseEntity<List<Produto>>(service.listarTudo(), headers, HttpStatus.ACCEPTED);
 	}
-	
+
 	@GetMapping("/{numero}")
-	public Produto getOne(@PathVariable Integer numero) throws ProdutoInexistenteException{
-		return service.listarProduto(numero);
+	public ResponseEntity<Produto> getOne(@PathVariable Integer numero) throws ProdutoInexistenteException {
+		return new ResponseEntity<Produto>(service.listarProduto(numero), HttpStatus.OK);
 	}
-	
+
 	@PostMapping
-	public ResponseEntity<?> insert(@RequestBody Produto produto) throws ProdutoExistenteException{
+	public ResponseEntity<?> insert(@RequestBody Produto produto) throws ProdutoExistenteException {
 		service.inserir(produto);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
-	
+
 	@PutMapping("/{numero}")
-	public Produto update(@RequestBody Produto produto, @PathVariable Integer numero) throws ProdutoInexistenteException, ProdutoExistenteException{
-		return service.atualizar(produto, numero);
+	public ResponseEntity<Produto> update(@RequestBody Produto produto, @PathVariable Integer numero)
+			throws ProdutoInexistenteException, ProdutoExistenteException {
+		return new ResponseEntity<Produto>(service.atualizar(produto, numero), HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/{numero}")
-	public void delete(@PathVariable Integer numero) throws ProdutoInexistenteException{
+	public ResponseEntity<?> delete(@PathVariable Integer numero) throws ProdutoInexistenteException {
 		service.deletar(numero);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
+
 }

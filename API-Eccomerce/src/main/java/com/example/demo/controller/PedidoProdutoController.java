@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,32 +21,33 @@ import com.example.demo.service.PedidoProdutoService;
 @RestController
 @RequestMapping("/pedido_produto")
 public class PedidoProdutoController {
-	
+
 	@Autowired
-    PedidoProdutoService service;
+	PedidoProdutoService service;
 
-    @GetMapping
-    public List<PedidoProduto> findAll(){
-        return service.listarTudo();
-    }
+	@GetMapping
+	public ResponseEntity<List<PedidoProduto>> findAll() {
+		return new ResponseEntity<List<PedidoProduto>>(service.listarTudo(), HttpStatus.ACCEPTED);
+	}
 
-    @GetMapping(value = "/{id}")
-    public PedidoProduto findById(@PathVariable Integer id) throws PedidoProdutoInexistenteException {
-        return service.listarPorId(id);
-    }
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<PedidoProduto> findById(@PathVariable Integer id) throws PedidoProdutoInexistenteException {
+		return new ResponseEntity<PedidoProduto>(service.listarPorId(id), HttpStatus.OK);
+	}
 
-    @PostMapping
-    public PedidoProduto insert(@RequestBody PedidoProduto pedidoProduto) {
-        return service.create(pedidoProduto);
-    }
+	@PostMapping
+	public ResponseEntity<PedidoProduto> insert(@RequestBody PedidoProduto pedidoProduto) {
+		return new ResponseEntity<PedidoProduto>(service.create(pedidoProduto), HttpStatus.CREATED);
+	}
 
-    @PutMapping("/{id}")
-    public PedidoProduto update(@RequestBody PedidoProduto pedidoProduto,@PathVariable Integer id) {
-        return service.update(pedidoProduto, id);
-    }
+	@PutMapping("/{id}")
+	public ResponseEntity<PedidoProduto> update(@RequestBody PedidoProduto pedidoProduto, @PathVariable Integer id) {
+		return new ResponseEntity<PedidoProduto>(service.update(pedidoProduto, id), HttpStatus.OK);
+	}
 
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id) throws PedidoProdutoInexistenteException {
-        service.delete(id);
-    }
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> delete(@PathVariable Integer id) throws PedidoProdutoInexistenteException {
+		service.delete(id);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 }

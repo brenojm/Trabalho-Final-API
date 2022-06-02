@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,38 +20,35 @@ import com.example.demo.service.ClienteService;
 
 @RestController
 @RequestMapping("/cliente")
-public class ClienteController{
+public class ClienteController {
 
 	@Autowired
 	ClienteService service;
-	
+
 	@GetMapping
-	public List<Cliente> findAll(){
-		return service.listarTudo();
+	public ResponseEntity<List<Cliente>> findAll() {
+		return new ResponseEntity<List<Cliente>>(service.listarTudo(), HttpStatus.ACCEPTED);
 	}
-	
+
 	@GetMapping(value = "/{id}")
-	public Cliente findById(@PathVariable Integer id) throws ClienteInexistenteException {
-		return service.listarPorId(id);
+	public ResponseEntity<Cliente> findById(@PathVariable Integer id) throws ClienteInexistenteException {
+		return new ResponseEntity<Cliente>(service.listarPorId(id), HttpStatus.OK);
 	}
 
 	@PostMapping
-	public Cliente insert(@RequestBody Cliente cliente) {
-		return service.create(cliente);		
+	public ResponseEntity<Cliente> insert(@RequestBody Cliente cliente) {
+		return new ResponseEntity<Cliente>(service.create(cliente), HttpStatus.CREATED);
 	}
-	
+
 	@PutMapping("/{id}")
-	public Cliente update(@RequestBody Cliente cliente,@PathVariable Integer id) {
-		return service.update(cliente, id);
+	public ResponseEntity<Cliente> update(@RequestBody Cliente cliente, @PathVariable Integer id) {
+		return new ResponseEntity<Cliente>(service.update(cliente, id), HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/{id}")
-	public void delete(@PathVariable Integer id) throws ClienteInexistenteException {
+	public ResponseEntity<?> delete(@PathVariable Integer id) throws ClienteInexistenteException {
 		service.delete(id);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
-	
 
 }
-
-

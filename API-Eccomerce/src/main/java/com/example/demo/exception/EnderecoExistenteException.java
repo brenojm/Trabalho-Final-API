@@ -1,5 +1,6 @@
 package com.example.demo.exception;
 
+@SuppressWarnings("serial")
 public class EnderecoExistenteException extends Exception {
 
 	private String message;

@@ -1,7 +1,5 @@
 package com.example.demo.controller;
 
-
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +18,8 @@ import com.example.demo.exception.CategoriaExistenteException;
 import com.example.demo.exception.CategoriaInexistenteException;
 import com.example.demo.exception.ClienteExistenteException;
 import com.example.demo.exception.ClienteInexistenteException;
+import com.example.demo.exception.EnderecoExistenteException;
+import com.example.demo.exception.EnderecoInexistenteException;
 import com.example.demo.exception.FuncionarioExistenteException;
 import com.example.demo.exception.FuncionarioInexistenteException;
 import com.example.demo.exception.PedidoExistenteException;
@@ -33,120 +33,133 @@ import com.example.demo.exception.UsuarioInexistenteException;
 
 @RestControllerAdvice
 public class ExceptionController {
-	
+
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex){
-		Map<String, String> errosOcorridos= new HashMap<>();
-		
+	public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+		Map<String, String> errosOcorridos = new HashMap<>();
+
 		List<ObjectError> erros = ex.getBindingResult().getAllErrors();
 		for (ObjectError erro : erros) {
-			
+
 			String atributo = ((FieldError) erro).getField();
-			
-			String mensagem= erro.getDefaultMessage();
+
+			String mensagem = erro.getDefaultMessage();
 			errosOcorridos.put(atributo, mensagem);
 		}
 		return errosOcorridos;
 	}
-	
+
 	@ExceptionHandler(CategoriaExistenteException.class)
-	public ResponseEntity<?> categoriaExistenteException(CategoriaExistenteException exception){
+	public ResponseEntity<?> categoriaExistenteException(CategoriaExistenteException exception) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("erro", exception.getMessage());
 		return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
 	}
-	
+
 	@ExceptionHandler(CategoriaInexistenteException.class)
-	public ResponseEntity<?> categoriaInexistenteException(CategoriaInexistenteException exception){
+	public ResponseEntity<?> categoriaInexistenteException(CategoriaInexistenteException exception) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("erro", exception.getMessage());
 		return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
 	}
-	
+
 	@ExceptionHandler(ClienteExistenteException.class)
-	public ResponseEntity<?> clienteExistenteException(ClienteExistenteException exception){
+	public ResponseEntity<?> clienteExistenteException(ClienteExistenteException exception) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("erro", exception.getMessage());
 		return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
 	}
-	
+
 	@ExceptionHandler(ClienteInexistenteException.class)
-	public ResponseEntity<?> clienteInexistenteException(ClienteInexistenteException exception){
+	public ResponseEntity<?> clienteInexistenteException(ClienteInexistenteException exception) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("erro", exception.getMessage());
 		return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
 	}
-	
+
 	@ExceptionHandler(FuncionarioExistenteException.class)
-	public ResponseEntity<?> funcionarioExistenteException(FuncionarioExistenteException exception){
+	public ResponseEntity<?> funcionarioExistenteException(FuncionarioExistenteException exception) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("erro", exception.getMessage());
 		return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
 	}
-	
+
 	@ExceptionHandler(FuncionarioInexistenteException.class)
-	public ResponseEntity<?> funcionarioInexistenteException(FuncionarioInexistenteException exception){
+	public ResponseEntity<?> funcionarioInexistenteException(FuncionarioInexistenteException exception) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("erro", exception.getMessage());
 		return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
 	}
-	
+
 	@ExceptionHandler(PedidoExistenteException.class)
-	public ResponseEntity<?> pedidoExistenteException(PedidoExistenteException exception){
+	public ResponseEntity<?> pedidoExistenteException(PedidoExistenteException exception) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("erro", exception.getMessage());
 		return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
 	}
-	
+
 	@ExceptionHandler(PedidoInexistenteException.class)
-	public ResponseEntity<?> pedidoInexistenteExceptiona(PedidoInexistenteException exception){
+	public ResponseEntity<?> pedidoInexistenteExceptiona(PedidoInexistenteException exception) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("erro", exception.getMessage());
 		return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
 	}
-	
+
 	@ExceptionHandler(PedidoProdutoExistenteException.class)
-	public ResponseEntity<?> pedidoProdutoExistenteException(PedidoProdutoExistenteException exception){
+	public ResponseEntity<?> pedidoProdutoExistenteException(PedidoProdutoExistenteException exception) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("erro", exception.getMessage());
 		return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
 	}
-	
+
 	@ExceptionHandler(PedidoProdutoInexistenteException.class)
-	public ResponseEntity<?> pedidoProdutoInexistenteException(PedidoProdutoInexistenteException exception){
+	public ResponseEntity<?> pedidoProdutoInexistenteException(PedidoProdutoInexistenteException exception) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("erro", exception.getMessage());
 		return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
 	}
-	
+
 	@ExceptionHandler(ProdutoExistenteException.class)
-	public ResponseEntity<?> produtoExistenteException(ProdutoExistenteException exception){
+	public ResponseEntity<?> produtoExistenteException(ProdutoExistenteException exception) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("erro", exception.getMessage());
 		return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
 	}
-	
+
 	@ExceptionHandler(ProdutoInexistenteException.class)
-	public ResponseEntity<?> produtoInexistenteException(ProdutoInexistenteException exception){
+	public ResponseEntity<?> produtoInexistenteException(ProdutoInexistenteException exception) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("erro", exception.getMessage());
 		return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
 	}
-	
+
 	@ExceptionHandler(UsuarioExistenteException.class)
-	public ResponseEntity<?> usuarioExistenteException(UsuarioExistenteException exception){
+	public ResponseEntity<?> usuarioExistenteException(UsuarioExistenteException exception) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("erro", exception.getMessage());
 		return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
 	}
-	
+
 	@ExceptionHandler(UsuarioInexistenteException.class)
-	public ResponseEntity<?> usuarioInexistenteException(UsuarioInexistenteException exception){
+	public ResponseEntity<?> usuarioInexistenteException(UsuarioInexistenteException exception) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("erro", exception.getMessage());
 		return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
 	}
-	
-	
+
+	@ExceptionHandler(EnderecoExistenteException.class)
+	public ResponseEntity<?> enderecoExistenteException(EnderecoExistenteException exception) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("erro", exception.getMessage());
+		return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(EnderecoInexistenteException.class)
+	public ResponseEntity<?> enderecoInexistenteException(EnderecoInexistenteException exception) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("erro", exception.getMessage());
+		return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
+	}
+
 }

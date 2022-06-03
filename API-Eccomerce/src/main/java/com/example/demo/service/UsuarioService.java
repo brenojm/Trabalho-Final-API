@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.exception.UsuarioExistenteException;
@@ -17,6 +18,9 @@ public  class UsuarioService {
 	@Autowired
 	UsuarioRepository repositorio;
 	
+	@Autowired
+	BCryptPasswordEncoder bCrypt;
+	
 	public List<Usuario> listarTudo(){
 		return repositorio.findAll();
 	}
@@ -29,7 +33,17 @@ public  class UsuarioService {
 		return optional.get();
 	}
 	
+	public Usuario getUsuarioPorEmail(String email) {
+		Optional<Usuario> optional = repositorio.findByEmail(email);
+		if (optional.isEmpty()) {
+			return null;
+			//to-do tratar erro
+		}
+		return optional.get();
+	}
+	
 	public Usuario create(Usuario usuario) {
+		usuario.setSenha(bCrypt.encode(usuario.getSenha()));
 		return repositorio.save(usuario);
 	}
 	

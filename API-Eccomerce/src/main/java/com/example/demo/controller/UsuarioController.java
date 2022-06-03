@@ -19,7 +19,7 @@ import com.example.demo.model.Usuario;
 import com.example.demo.service.UsuarioService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/usuario")
 public class UsuarioController {
 
 	@Autowired

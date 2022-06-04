@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.config.MailConfig;
 import com.example.demo.exception.UsuarioInexistenteException;
 import com.example.demo.model.Usuario;
 import com.example.demo.service.UsuarioService;
@@ -24,6 +25,9 @@ public class UsuarioController {
 
 	@Autowired
 	UsuarioService service;
+	
+	@Autowired
+	MailConfig mailConfig;
 
 	@GetMapping
 	public ResponseEntity<List<Usuario>> findAll() {
@@ -37,6 +41,7 @@ public class UsuarioController {
 
 	@PostMapping
 	public ResponseEntity<Usuario> insert(@RequestBody Usuario usuario) {
+//		mailConfig.sendEmail(null, usuario.getEmail(), "Ativar Conta", "Ative sua conta no link abaixo:");
 		return new ResponseEntity<Usuario>(service.create(usuario), HttpStatus.CREATED);
 	}
 

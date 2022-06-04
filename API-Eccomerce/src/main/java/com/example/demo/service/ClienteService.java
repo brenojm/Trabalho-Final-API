@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.exception.ClienteExistenteException;
 import com.example.demo.exception.ClienteInexistenteException;
+import com.example.demo.exception.EnderecoExistenteException;
 import com.example.demo.model.Cliente;
 import com.example.demo.repository.ClienteRepository;
 
@@ -16,6 +17,9 @@ public class ClienteService {
 
 	@Autowired
 	ClienteRepository repositorio;
+	
+	@Autowired
+	EnderecoService serviceEnd;
 	
 	public List<Cliente> listarTudo(){
 		return repositorio.findAll();
@@ -29,7 +33,10 @@ public class ClienteService {
 		return optional.get();
 	}
 	
-	public  Cliente create( Cliente cliente) {
+	public  Cliente create( Cliente cliente) throws ClienteExistenteException, EnderecoExistenteException {
+		verificarClienteExiste(cliente);
+		
+		
 		return repositorio.save(cliente);
 	}
 	

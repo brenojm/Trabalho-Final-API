@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -24,14 +26,19 @@ public class Endereco {
 	@Size(min=3, max=40)
 	private String cidade;
 	
-	private Integer numCasa;
+	private String numCasa;
 	
 	private String complemento;
 	
 	private String estado;
+	
+	@ManyToOne
+	@JoinColumn(name = "cliente_id",
+				referencedColumnName = "id")
+	private Cliente cliente;
 
-	public Endereco(Integer id, String cep, String rua, String bairro, String cidade, Integer numCasa,
-			String complemento, String estado) {
+	public Endereco(Integer id, String cep, String rua, String bairro, String cidade, String numCasa,
+			String complemento, String estado, Cliente cliente) {
 		super();
 		this.id = id;
 		this.cep = cep;
@@ -41,6 +48,7 @@ public class Endereco {
 		this.numCasa = numCasa;
 		this.complemento = complemento;
 		this.estado = estado;
+		this.cliente = cliente;
 	}
 
 	public Endereco() {
@@ -87,11 +95,11 @@ public class Endereco {
 		this.cidade = cidade;
 	}
 
-	public Integer getNumCasa() {
+	public String getNumCasa() {
 		return numCasa;
 	}
 
-	public void setNumCasa(Integer numCasa) {
+	public void setNumCasa(String numCasa) {
 		this.numCasa = numCasa;
 	}
 
@@ -111,4 +119,11 @@ public class Endereco {
 		this.estado = estado;
 	}
 
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
 }

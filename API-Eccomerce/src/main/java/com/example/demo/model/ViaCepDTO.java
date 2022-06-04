@@ -6,13 +6,15 @@ public class ViaCepDTO {
 	private String logradouro;
 	private String bairro;
 	private String localidade;
+	private String uf;
 	
-	public ViaCepDTO(String cep, String logradouro, String bairro, String localidade) {
+	public ViaCepDTO(String cep, String logradouro, String bairro, String localidade, String uf) {
 		super();
 		this.cep = cep;
 		this.logradouro = logradouro;
 		this.bairro = bairro;
 		this.localidade = localidade;
+		this.uf = uf;
 	}
 
 	public ViaCepDTO() {
@@ -50,5 +52,12 @@ public class ViaCepDTO {
 	public void setLocalidade(String localidade) {
 		this.localidade = localidade;
 	}
-	
+
+	public String getUf() {
+		return uf;
+	}
+
+	public void setUf(String uf) {
+		this.uf = uf;
+	}
 }

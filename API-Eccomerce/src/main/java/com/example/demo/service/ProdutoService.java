@@ -47,9 +47,9 @@ public class ProdutoService {
 	public Produto inserir(Produto produto) throws ProdutoExistenteException, CategoriaInexistenteException {
 		verificarExiste(produto);
 		
-		//produto.setCategoria(serviceCat.listarCategoria(produto.getCategoria().getId()));
-		
-		//produto.setFuncionario(serviceFun.listarPorId(produto.getFuncionario().getIdFuncionario()));
+		produto.setCategoria(serviceCat.listarCategoria(produto.getCategoria().getId()));
+				
+		produto.setFuncionario(serviceFun.listarPorId(produto.getFuncionario().getIdFuncionario()));
 		
 		return repositorio.save(produto);
 	}

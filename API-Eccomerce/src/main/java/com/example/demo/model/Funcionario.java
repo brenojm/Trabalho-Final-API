@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "funcionario")
 public class Funcionario{	
@@ -39,6 +41,7 @@ public class Funcionario{
 	
 	//Incluir Endereço via CEP
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "funcionario")
 	private Set<Produto> produtos;
 	
@@ -110,6 +113,10 @@ public class Funcionario{
 
 	public void setProdutos(Set<Produto> produtos) {
 		this.produtos = produtos;
+	}
+
+	public void adicionaProdutos(Produto produto) {
+		produtos.add(produto);
 	}
 
 	public Usuario getUsuario() {

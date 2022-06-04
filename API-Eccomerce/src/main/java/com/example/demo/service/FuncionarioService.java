@@ -22,7 +22,8 @@ public class FuncionarioService {
 	}
 
 	public Funcionario listarPorId(Integer id) {
-		Optional<Funcionario> funcionario = repositorio.findById(id);
+		System.out.println(id);
+		Optional<Funcionario> funcionario = repositorio.findByIdFuncionario(id);
 		return funcionario.get();
 	}
 

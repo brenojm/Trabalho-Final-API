@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Categoria {
 	
@@ -19,6 +21,7 @@ public class Categoria {
 	
 	private String descricao;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "categoria")
 	private Set<Produto> produtos;
 
@@ -64,5 +67,9 @@ public class Categoria {
 
 	public void setProdutos(Set<Produto> produtos) {
 		this.produtos = produtos;
+	}
+
+	public void adicionaProdutos(Produto produto) {
+		produtos.add(produto);
 	}
 }

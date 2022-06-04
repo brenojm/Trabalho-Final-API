@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.exception.ClienteExistenteException;
 import com.example.demo.exception.ClienteInexistenteException;
+import com.example.demo.exception.EnderecoExistenteException;
 import com.example.demo.model.Cliente;
 import com.example.demo.service.ClienteService;
 
@@ -36,7 +38,7 @@ public class ClienteController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Cliente> insert(@RequestBody Cliente cliente) {
+	public ResponseEntity<Cliente> insert(@RequestBody Cliente cliente) throws ClienteExistenteException, EnderecoExistenteException {
 		return new ResponseEntity<Cliente>(service.create(cliente), HttpStatus.CREATED);
 	}
 

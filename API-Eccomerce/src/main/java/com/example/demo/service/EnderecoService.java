@@ -43,16 +43,19 @@ public class EnderecoService {
 		endereco.setCidade(enderecoNovo.getLocalidade());
 		endereco.setCep(enderecoNovo.getCep());
 		endereco.setBairro(enderecoNovo.getBairro());
-		verificarEnderecoExiste(endereco);
+		endereco.setNumCasa(enderecoDto.getNumCasa());
+		endereco.setComplemento(enderecoDto.getComplemento());
+		endereco.setEstado(enderecoNovo.getUf());
+		//verificarEnderecoExiste(endereco);
 		return repositorio.save(endereco);
 	}
 	
-	public void verificarEnderecoExiste(Endereco endereco) throws EnderecoExistenteException {
-		Optional<Endereco> optional = repositorio.findById(endereco.getId());
+	/* void verificarEnderecoExiste(Endereco endereco) throws EnderecoExistenteException {
+		Optional<Endereco> optional = repositorio.findByCep(endereco.getCep());
 		if (optional.isPresent()) {
 			throw new EnderecoExistenteException("Esse Endereco ja existe");
 		}	
-	}
+	}*/
 	
     public Endereco update(Endereco endereco, Integer id) {
     	endereco.setId(id);

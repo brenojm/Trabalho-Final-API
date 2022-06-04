@@ -27,10 +27,10 @@ public class JWTUtil {
 				.signWith(SignatureAlgorithm.HS512, secret.getBytes()).compact();
 	}
 
-	static public Authentication getAuthentication(HttpServletRequest request) {
+	 public static Authentication getAuthentication(HttpServletRequest request) {
 		String token = request.getHeader("Authorization");
 		if (token != null) {
-			String user = Jwts.parser().setSigningKey("ResidenciaSerratec".getBytes()).parseClaimsJws(token.replace("Bearer", ""))
+			String user = Jwts.parser().setSigningKey("serratec".getBytes()).parseClaimsJws(token.replace("Bearer", ""))
 					.getBody().getSubject();
 			if (user != null) {
 				return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());

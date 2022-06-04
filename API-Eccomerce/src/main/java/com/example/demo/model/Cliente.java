@@ -37,12 +37,15 @@ public class Cliente {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
     
+    @OneToMany(mappedBy = "cliente")
+    private Set<Endereco> enderecos;
+    
 	public Cliente() {
 		super();
 	}
 
-	public Cliente(Integer idUsuario, String email, String userName, String senha, char role, Integer id, String nome,
-			String cpf, Integer telefone, Date dataNascimento, Set<Pedido> pedidos, Usuario usuario) {
+	public Cliente(Integer id, String nome, String cpf, Integer telefone, Date dataNascimento, Set<Pedido> pedidos,
+			Usuario usuario, Set<Endereco> enderecos) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -51,6 +54,7 @@ public class Cliente {
 		this.dataNascimento = dataNascimento;
 		this.pedidos = pedidos;
 		this.usuario = usuario;
+		this.enderecos = enderecos;
 	}
 
 	public Integer getId() {
@@ -107,9 +111,19 @@ public class Cliente {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public Set<Endereco> getEnderecos() {
+		return enderecos;
+	}
+
+	public void setEnderecos(Set<Endereco> enderecos) {
+		this.enderecos = enderecos;
 	}    
 	
-	
+	public void adicionarEndereco(Endereco endereco) {
+		enderecos.add(endereco);
+	}
 }
 
 

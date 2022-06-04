@@ -37,6 +37,7 @@ public class Produto {
 	@OneToMany(mappedBy = "produto")
 	private Set<PedidoProduto> pedidoProdutos;
 	
+	
 	@ManyToOne
 	@JoinColumn(name = "categoria_id",
 				referencedColumnName = "id")	

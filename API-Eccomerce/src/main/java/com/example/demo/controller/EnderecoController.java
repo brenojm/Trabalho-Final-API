@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.exception.ClienteInexistenteException;
 import com.example.demo.exception.EnderecoExistenteException;
 import com.example.demo.exception.EnderecoInexistenteException;
 import com.example.demo.model.Endereco;
@@ -42,7 +43,7 @@ public class EnderecoController {
     }
 
     @PostMapping
-    public ResponseEntity<Endereco> insert( @RequestBody @Valid EnderecoDTO endereco) throws EnderecoExistenteException {
+    public ResponseEntity<Endereco> insert( @RequestBody @Valid EnderecoDTO endereco) throws EnderecoExistenteException, ClienteInexistenteException {
         return new ResponseEntity<Endereco>(service.create(endereco), HttpStatus.CREATED);
     }
 

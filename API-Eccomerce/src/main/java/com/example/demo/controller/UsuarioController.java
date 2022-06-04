@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.config.MailConfig;
+import com.example.demo.exception.ClienteExistenteException;
 import com.example.demo.exception.UsuarioInexistenteException;
 import com.example.demo.model.Usuario;
+import com.example.demo.model.UsuarioDTO;
 import com.example.demo.service.UsuarioService;
 
 @RestController
@@ -40,9 +42,9 @@ public class UsuarioController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Usuario> insert(@RequestBody Usuario usuario) {
+	public ResponseEntity<UsuarioDTO> insert(@RequestBody UsuarioDTO usuarioDTO) throws ClienteExistenteException {
 //		mailConfig.sendEmail(null, usuario.getEmail(), "Ativar Conta", "Ative sua conta no link abaixo:");
-		return new ResponseEntity<Usuario>(service.create(usuario), HttpStatus.CREATED);
+		return new ResponseEntity<UsuarioDTO>(service.create(usuarioDTO), HttpStatus.CREATED);
 	}
 
 	@PutMapping("/{id}")

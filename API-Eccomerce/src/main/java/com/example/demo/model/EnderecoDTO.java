@@ -7,6 +7,8 @@ public class EnderecoDTO {
 	private String numCasa;
 	
 	private String complemento;
+	
+	private Cliente cliente;
 
 	public String getCep() {
 		return cep;
@@ -31,12 +33,21 @@ public class EnderecoDTO {
 	public void setComplemento(String complemento) {
 		this.complemento = complemento;
 	}
+	
+	public Cliente getCliente() {
+		return cliente;
+	}
 
-	public EnderecoDTO(String cep, String numCasa, String complemento) {
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public EnderecoDTO(String cep, String numCasa, String complemento, Cliente cliente) {
 		super();
 		this.cep = cep;
 		this.numCasa = numCasa;
 		this.complemento = complemento;
+		this.cliente = cliente;
 	}
 
 	public EnderecoDTO() {

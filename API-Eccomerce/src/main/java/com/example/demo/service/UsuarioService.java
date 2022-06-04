@@ -7,9 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.exception.ClienteExistenteException;
 import com.example.demo.exception.UsuarioExistenteException;
 import com.example.demo.exception.UsuarioInexistenteException;
+import com.example.demo.model.Cliente;
 import com.example.demo.model.Usuario;
+import com.example.demo.model.UsuarioDTO;
 import com.example.demo.repository.UsuarioRepository;
 
 @Service
@@ -20,6 +23,9 @@ public  class UsuarioService {
 	
 	@Autowired
 	BCryptPasswordEncoder bCrypt;
+	
+	@Autowired
+	ClienteService serviceCli;
 	
 	public List<Usuario> listarTudo(){
 		return repositorio.findAll();
@@ -42,9 +48,22 @@ public  class UsuarioService {
 		return optional.get();
 	}
 	
-	public Usuario create(Usuario usuario) {
+	public UsuarioDTO create(UsuarioDTO usuarioDTO) throws ClienteExistenteException {
+		Usuario usuario = new Usuario();
+		Cliente cliente = new Cliente();
+		
+		usuario.setEmail(usuarioDTO.getEmail());
+		usuario.setSenha(usuarioDTO.getSenha());
+		usuario.setUsername(usuarioDTO.getUsername());
+		serviceCli.create(usuarioDTO.getCliente());	
+		usuario.setCliente(usuarioDTO.getCliente());
+		usuario.setRole("C");
+		
 		usuario.setSenha(bCrypt.encode(usuario.getSenha()));
-		return repositorio.save(usuario);
+		cliente = usuario.getCliente();
+		cliente.setUsuario(usuario);
+		repositorio.save(usuario);
+		return usuarioDTO;
 	}
 	
 	public void verificarClienteExiste(Usuario usuario) throws UsuarioExistenteException {

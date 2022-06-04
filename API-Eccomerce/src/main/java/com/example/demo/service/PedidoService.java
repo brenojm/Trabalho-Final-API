@@ -6,9 +6,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.exception.ClienteInexistenteException;
 import com.example.demo.exception.PedidoExistenteException;
 import com.example.demo.exception.PedidoInexistenteException;
 import com.example.demo.model.Pedido;
+import com.example.demo.model.PedidoDTO;
 import com.example.demo.repository.PedidoRepository;
 
 @Service
@@ -16,6 +18,9 @@ public class PedidoService {
 	
 	@Autowired
 	PedidoRepository repositorio;
+	
+	@Autowired
+	ClienteService serviceCli;
 
 	public List<Pedido> listarTudo() {
 		return repositorio.findAll();
@@ -36,8 +41,18 @@ public class PedidoService {
 		}
 	}
 
-	public void inserir(Pedido pedido) throws PedidoExistenteException {
+	public void inserir(PedidoDTO pedidoDTO) throws PedidoExistenteException, ClienteInexistenteException {		
+		Pedido pedido = new Pedido();
+		
+		pedido.setId(pedidoDTO.getId());
+		pedido.setNumPedido(pedidoDTO.getNumPedido());
+		pedido.setValorTotalPed(pedidoDTO.getValorTotalPed());
+		pedido.setDataPedido(pedidoDTO.getDataEntrega());
+		pedido.setDataEntrega(pedidoDTO.getDataEntrega());
+		pedido.setStatus(pedidoDTO.getStatus());
+		pedido.setCliente(serviceCli.getCliente(pedidoDTO.getClienteId()));
 		verificarExiste(pedido);
+		pedido.getCliente().adicionarPedido(pedido);
 		repositorio.save(pedido);
 	}
 

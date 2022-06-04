@@ -22,11 +22,8 @@ public class Cliente {
 	
 	private String nome;
 	private String cpf;
-	private Integer telefone;
+	private String telefone;
 	
-	//@ManyToOne(mappedBy="cliente")
-    //private Set<Enderco> enderecos;
-    
     @Temporal(TemporalType.DATE)
     private Date dataNascimento;
     
@@ -44,7 +41,7 @@ public class Cliente {
 		super();
 	}
 
-	public Cliente(Integer id, String nome, String cpf, Integer telefone, Date dataNascimento, Set<Pedido> pedidos,
+	public Cliente(Integer id, String nome, String cpf, String telefone, Date dataNascimento, Set<Pedido> pedidos,
 			Usuario usuario, Set<Endereco> enderecos) {
 		super();
 		this.id = id;
@@ -81,11 +78,11 @@ public class Cliente {
 		this.cpf = cpf;
 	}
 
-	public Integer getTelefone() {
+	public String getTelefone() {
 		return telefone;
 	}
 
-	public void setTelefone(Integer telefone) {
+	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
 
@@ -123,6 +120,10 @@ public class Cliente {
 	
 	public void adicionarEndereco(Endereco endereco) {
 		enderecos.add(endereco);
+	}
+	
+	public void adicionarPedido(Pedido pedido) {
+		pedidos.add(pedido);
 	}
 }
 

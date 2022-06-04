@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Usuario {
 	
@@ -21,6 +23,7 @@ public class Usuario {
 	
 	private String role;
 	
+	@JsonIgnore
 	@OneToOne(mappedBy = "usuario")
 	private Cliente cliente;
 	

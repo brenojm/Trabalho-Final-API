@@ -1,25 +1,12 @@
 package com.example.demo.model;
 
 import java.util.Date;
-import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-@Entity
-public class Pedido {
+public class PedidoDTO {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	private Integer numPedido;
@@ -34,22 +21,14 @@ public class Pedido {
 	
 	private String status;
 	
-	@OneToMany(mappedBy = "pedido")
-	private Set<PedidoProduto> pedidoProdutos;
-	
-	@JsonIgnore
-	@ManyToOne()
-	@JoinColumn(name = "cliente_id",
-				referencedColumnName = "id")
-	private Cliente cliente;
+	private Integer clienteId;
 
-	public Pedido() {
+	public PedidoDTO() {
 		super();
-
 	}
 
-	public Pedido(Integer id, Integer numPedido, Double valorTotalPed, Date dataPedido, Date dataEntrega, String status,
-			Set<PedidoProduto> pedidoProdutos, Cliente cliente) {
+	public PedidoDTO(Integer id, Integer numPedido, Double valorTotalPed, Date dataPedido, Date dataEntrega,
+			String status, Integer clienteId) {
 		super();
 		this.id = id;
 		this.numPedido = numPedido;
@@ -57,35 +36,8 @@ public class Pedido {
 		this.dataPedido = dataPedido;
 		this.dataEntrega = dataEntrega;
 		this.status = status;
-		this.pedidoProdutos = pedidoProdutos;
-		this.cliente = cliente;
+		this.clienteId = clienteId;
 	}
-
-
-
-	public Set<PedidoProduto> getPedidoProdutos() {
-		return pedidoProdutos;
-	}
-
-
-
-	public void setPedidoProdutos(Set<PedidoProduto> pedidoProdutos) {
-		this.pedidoProdutos = pedidoProdutos;
-	}
-
-
-
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-
-
 
 	public Integer getId() {
 		return id;
@@ -133,5 +85,13 @@ public class Pedido {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public Integer getClienteId() {
+		return clienteId;
+	}
+
+	public void setClienteId(Integer clienteId) {
+		this.clienteId = clienteId;
 	}
 }

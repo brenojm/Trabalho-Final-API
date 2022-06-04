@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.exception.ClienteExistenteException;
 import com.example.demo.exception.ClienteInexistenteException;
-import com.example.demo.exception.EnderecoExistenteException;
 import com.example.demo.model.Cliente;
+import com.example.demo.model.ClienteDTO;
 import com.example.demo.service.ClienteService;
 
 @RestController
@@ -33,12 +33,12 @@ public class ClienteController {
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Cliente> findById(@PathVariable Integer id) throws ClienteInexistenteException {
-		return new ResponseEntity<Cliente>(service.listarPorId(id), HttpStatus.OK);
+	public ResponseEntity<ClienteDTO> findById(@PathVariable Integer id) throws ClienteInexistenteException {
+		return new ResponseEntity<ClienteDTO>(service.listarPorId(id), HttpStatus.OK);
 	}
 
 	@PostMapping
-	public ResponseEntity<Cliente> insert(@RequestBody Cliente cliente) throws ClienteExistenteException, EnderecoExistenteException {
+	public ResponseEntity<Cliente> insert(@RequestBody Cliente cliente) throws ClienteExistenteException {
 		return new ResponseEntity<Cliente>(service.create(cliente), HttpStatus.CREATED);
 	}
 

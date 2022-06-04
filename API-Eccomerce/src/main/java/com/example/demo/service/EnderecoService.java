@@ -6,8 +6,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.exception.ClienteInexistenteException;
 import com.example.demo.exception.EnderecoExistenteException;
 import com.example.demo.exception.EnderecoInexistenteException;
+import com.example.demo.model.Cliente;
 import com.example.demo.model.Endereco;
 import com.example.demo.model.EnderecoDTO;
 import com.example.demo.model.ViaCepDTO;
@@ -24,6 +26,9 @@ public class EnderecoService {
 	@Autowired	
 	RestViaCep restViaCep;
 	
+	@Autowired
+	ClienteService serviceCli;
+	
 	public List<Endereco> listarTudo(){
 		return repositorio.findAll();
 	}
@@ -36,7 +41,7 @@ public class EnderecoService {
 		return optional.get();
 	}
 	
-	public Endereco create(EnderecoDTO enderecoDto) throws EnderecoExistenteException {
+	public Endereco create(EnderecoDTO enderecoDto) throws EnderecoExistenteException, ClienteInexistenteException {
 		ViaCepDTO enderecoNovo = restViaCep.getViaCEP(enderecoDto.getCep());
 		Endereco endereco = new Endereco();
 		endereco.setRua(enderecoNovo.getLogradouro());
@@ -47,15 +52,16 @@ public class EnderecoService {
 		endereco.setComplemento(enderecoDto.getComplemento());
 		endereco.setEstado(enderecoNovo.getUf());
 		//verificarEnderecoExiste(endereco);
+		endereco.setCliente(serviceCli.getCliente(enderecoDto.getCliente().getId())); 
 		return repositorio.save(endereco);
 	}
 	
-	/* void verificarEnderecoExiste(Endereco endereco) throws EnderecoExistenteException {
-		Optional<Endereco> optional = repositorio.findByCep(endereco.getCep());
-		if (optional.isPresent()) {
-			throw new EnderecoExistenteException("Esse Endereco ja existe");
-		}	
-	}*/
+	 public void verificarEnderecoExiste(Endereco endereco) throws EnderecoExistenteException {
+		 Cliente cliente = endereco.getCliente();
+		 if (cliente.getEnderecos().contains(endereco)) {
+			throw new EnderecoExistenteException("Esse Endereco ja esta cadastrado");
+		 }	
+	}
 	
     public Endereco update(Endereco endereco, Integer id) {
     	endereco.setId(id);

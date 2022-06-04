@@ -9,6 +9,8 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Endereco {
 
@@ -32,6 +34,7 @@ public class Endereco {
 	
 	private String estado;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "cliente_id",
 				referencedColumnName = "id")

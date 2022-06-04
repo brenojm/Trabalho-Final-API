@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.exception.ClienteInexistenteException;
 import com.example.demo.exception.PedidoExistenteException;
 import com.example.demo.exception.PedidoInexistenteException;
 import com.example.demo.model.Pedido;
+import com.example.demo.model.PedidoDTO;
 import com.example.demo.service.PedidoService;
 
 @RestController
@@ -40,8 +42,8 @@ public class PedidoController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> insert(@RequestBody Pedido pedido) throws PedidoExistenteException {
-		service.inserir(pedido);
+	public ResponseEntity<?> insert(@RequestBody PedidoDTO pedidoDTO) throws PedidoExistenteException, ClienteInexistenteException {
+		service.inserir(pedidoDTO);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 

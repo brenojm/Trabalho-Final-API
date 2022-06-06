@@ -42,7 +42,7 @@ public class PedidoController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> insert(@RequestBody PedidoDTO pedidoDTO) throws PedidoExistenteException, ClienteInexistenteException {
+	public ResponseEntity<?> insert(@RequestBody PedidoDTO pedidoDTO) throws PedidoExistenteException, ClienteInexistenteException, PedidoInexistenteException {
 		service.inserir(pedidoDTO);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}

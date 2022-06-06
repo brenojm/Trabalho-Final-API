@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -11,33 +12,31 @@ public class PedidoDTO {
 	
 	private Integer numPedido;
 	
-	private Double valorTotalPed;
-	
 	@Temporal(TemporalType.DATE)
 	private Date dataPedido;
-	
-	@Temporal(TemporalType.DATE)
-	private Date dataEntrega;
 	
 	private String status;
 	
 	private Integer clienteId;
+	
+	private Set<ProdutosPedido> produtos;
 
 	public PedidoDTO() {
 		super();
 	}
-
-	public PedidoDTO(Integer id, Integer numPedido, Double valorTotalPed, Date dataPedido, Date dataEntrega,
-			String status, Integer clienteId) {
+	
+	public PedidoDTO(Integer id, Integer numPedido, Date dataPedido, String status, Integer clienteId,
+			Set<ProdutosPedido> produtos) {
 		super();
 		this.id = id;
 		this.numPedido = numPedido;
-		this.valorTotalPed = valorTotalPed;
 		this.dataPedido = dataPedido;
-		this.dataEntrega = dataEntrega;
 		this.status = status;
 		this.clienteId = clienteId;
+		this.produtos = produtos;
 	}
+
+
 
 	public Integer getId() {
 		return id;
@@ -55,28 +54,13 @@ public class PedidoDTO {
 		this.numPedido = numPedido;
 	}
 
-	public Double getValorTotalPed() {
-		return valorTotalPed;
-	}
-
-	public void setValorTotalPed(Double valorTotalPed) {
-		this.valorTotalPed = valorTotalPed;
-	}
-
 	public Date getDataPedido() {
-		return dataPedido;
+		Date date = new Date(System.currentTimeMillis());
+		return date;
 	}
 
 	public void setDataPedido(Date dataPedido) {
 		this.dataPedido = dataPedido;
-	}
-
-	public Date getDataEntrega() {
-		return dataEntrega;
-	}
-
-	public void setDataEntrega(Date dataEntrega) {
-		this.dataEntrega = dataEntrega;
 	}
 
 	public String getStatus() {
@@ -94,4 +78,15 @@ public class PedidoDTO {
 	public void setClienteId(Integer clienteId) {
 		this.clienteId = clienteId;
 	}
+
+	public Set<ProdutosPedido> getProdutos() {
+		return produtos;
+	}
+
+	public void setProdutos(Set<ProdutosPedido> produtos) {
+		this.produtos = produtos;
+	}
+	
+	
+	
 }

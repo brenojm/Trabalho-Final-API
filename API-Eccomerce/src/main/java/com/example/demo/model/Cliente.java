@@ -30,6 +30,7 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente")
     private Set<Pedido> pedidos;
     
+    
     @OneToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;

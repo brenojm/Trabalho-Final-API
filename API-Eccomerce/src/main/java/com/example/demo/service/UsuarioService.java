@@ -51,17 +51,20 @@ public  class UsuarioService {
 	public UsuarioDTO create(UsuarioDTO usuarioDTO) throws ClienteExistenteException {
 		Usuario usuario = new Usuario();
 		Cliente cliente = new Cliente();
-		
+
 		usuario.setEmail(usuarioDTO.getEmail());
 		usuario.setSenha(usuarioDTO.getSenha());
 		usuario.setUsername(usuarioDTO.getUsername());
-		serviceCli.create(usuarioDTO.getCliente());	
-		usuario.setCliente(usuarioDTO.getCliente());
 		usuario.setRole("C");
 		
 		usuario.setSenha(bCrypt.encode(usuario.getSenha()));
-		cliente = usuario.getCliente();
+		
+		serviceCli.create(usuarioDTO.getCliente());
+		cliente = usuarioDTO.getCliente();
+		
 		cliente.setUsuario(usuario);
+		
+		
 		repositorio.save(usuario);
 		return usuarioDTO;
 	}

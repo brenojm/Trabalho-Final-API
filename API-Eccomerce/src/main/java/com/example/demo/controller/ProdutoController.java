@@ -39,10 +39,10 @@ public class ProdutoController {
 	ImageService serviceImage;
 
 	@GetMapping
-	public ResponseEntity<List<Produto>> getAll() {
+	public ResponseEntity<List<ProdutoDTO>> getAll() {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Lista de Produtos", "Segue todos os produtos cadastrados");
-		return new ResponseEntity<List<Produto>>(service.listarTudo(), headers, HttpStatus.ACCEPTED);
+		return new ResponseEntity<List<ProdutoDTO>>(service.listarTudo(), headers, HttpStatus.ACCEPTED);
 	}
 
 	@GetMapping("/{numero}")
@@ -55,7 +55,7 @@ public class ProdutoController {
 		Image image = serviceImage.getImage(id);
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("content-type", image.getMimeType());
-		headers.add("content-length", String.valueOf(image.getData().length));
+		headers.add("content-length",String.valueOf(image.getData().length));
 		return new ResponseEntity<>(image.getData(),headers, HttpStatus.OK);
 		
 	}

@@ -27,6 +27,7 @@ public class Usuario {
 	@OneToOne(mappedBy = "usuario")
 	private Cliente cliente;
 	
+	@JsonIgnore
 	@OneToOne(mappedBy = "usuario")
 	private Funcionario funcionario;
 

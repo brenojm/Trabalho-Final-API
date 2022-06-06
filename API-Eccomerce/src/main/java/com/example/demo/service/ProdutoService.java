@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,8 +32,18 @@ public class ProdutoService {
 	ImageService serviceIma;
 	
 
-	public List<Produto> listarTudo() {
-		return repositorio.findAll();
+	public List<ProdutoDTO> listarTudo() {
+		List<Produto> produtos = repositorio.findAll();
+		List<ProdutoDTO> produtosDTO = new ArrayList<ProdutoDTO>();
+		for (Produto produto : produtos) {
+			ProdutoDTO produtoDTO = new ProdutoDTO();
+			produtoDTO.setId(produto.getId());
+			produtoDTO.setNome(produto.getNome());
+			produtoDTO.setPreco(produto.getPreco());
+			produtoDTO.setUrl("http://localhost:8080/produto/" + produtoDTO.getId().toString() + "/image");
+			produtosDTO.add(produtoDTO);
+		}
+		return produtosDTO;
 	}
 
 	public ProdutoDTO listarProduto(Integer numero) throws ProdutoInexistenteException {
@@ -108,6 +119,11 @@ public class ProdutoService {
 			throw new ProdutoInexistenteException("Produto não cadastrado");
 		}
 		repositorio.deleteById(id);
+	}
+	
+	public Produto getPorId(Integer id) {
+		Optional<Produto> optional = repositorio.findById(id);
+		return optional.get();
 	}
 
 }

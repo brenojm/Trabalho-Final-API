@@ -47,6 +47,9 @@ public class Pedido {
 		super();
 
 	}
+	
+
+
 
 	public Pedido(Integer id, Integer numPedido, Double valorTotalPed, Date dataPedido, Date dataEntrega, String status,
 			Set<PedidoProduto> pedidoProdutos, Cliente cliente) {

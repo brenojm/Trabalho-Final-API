@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class PedidoProduto {
 	
@@ -14,11 +16,13 @@ public class PedidoProduto {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@JsonIgnore
 	@ManyToOne()
 	@JoinColumn(name = "produto_id",
 				referencedColumnName = "id")
 	private Produto produto;
 	
+	@JsonIgnore
 	@ManyToOne()
 	@JoinColumn(name = "pedido_id",
 				referencedColumnName = "id")

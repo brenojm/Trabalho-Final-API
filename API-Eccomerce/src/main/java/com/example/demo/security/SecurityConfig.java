@@ -2,6 +2,7 @@ package com.example.demo.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -25,13 +26,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	JWTUtil jwtUtil;
 	
 	private static String[] AUTH_WHITELIST = {
-		"/login","/usuario","/endereco","/produto/**", "/cliente/**", "/cliente", "/pedido","/funcionario"
+		"/login","/usuario","/endereco","/produto/**", "/cliente/**", "/cliente", "/pedido","/funcionario","/swagger-ui/**", "/bus/v3/api-docs/**"
 	};
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
-		http.authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll().anyRequest().authenticated();
+		http.authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll().antMatchers(HttpMethod.GET,"/swagger-ui/**", "/v3/api-docs/**").permitAll().anyRequest().authenticated();
 		http.addFilterBefore(new JWTAuthenticationFilter(authenticationManager(), jwtUtil), UsernamePasswordAuthenticationFilter.class);
 		http.addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

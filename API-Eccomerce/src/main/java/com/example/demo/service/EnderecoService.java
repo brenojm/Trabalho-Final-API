@@ -52,8 +52,9 @@ public class EnderecoService {
 		endereco.setNumCasa(enderecoDto.getNumCasa());
 		endereco.setComplemento(enderecoDto.getComplemento());
 		endereco.setEstado(enderecoNovo.getUf());
-		verificarEnderecoExiste(endereco);
+		//verificarEnderecoExiste(endereco);
 		endereco.setUsuario(serviceUs.listarPorId(enderecoDto.getIdUsuario())); 
+		serviceUs.listarPorId(enderecoDto.getIdUsuario()).getEnderecos().add(endereco);
 		return repositorio.save(endereco);
 	}
 	
@@ -64,10 +65,8 @@ public class EnderecoService {
 		 }	
 	}
 	
-    public Endereco update(Endereco endereco, Integer id) {
-    	endereco.setId(id);
-    	return repositorio.save(endereco);
-    }
+   
+    
     public void delete(Integer id) throws EnderecoInexistenteException {
     	Optional<Endereco> optional = repositorio.findById(id);
     	if (optional.isEmpty()) {

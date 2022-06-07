@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.exception.UsuarioExistenteException;
 import com.example.demo.exception.UsuarioInexistenteException;
+import com.example.demo.model.Endereco;
 import com.example.demo.model.Usuario;
 import com.example.demo.repository.UsuarioRepository;
 
@@ -63,5 +64,10 @@ public  class UsuarioService {
     
     public Usuario saveUsuario(Usuario usuario) {
     	return repositorio.save(usuario);
+    }
+    
+    public void adicionarEndereco(Endereco endereco, Integer id) {
+    	Optional<Usuario> optional = repositorio.findById(id);
+    	optional.get().getEnderecos().add(endereco);
     }
 }

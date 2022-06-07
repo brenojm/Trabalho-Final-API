@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.config.MailConfig;
@@ -25,6 +26,9 @@ public class FuncionarioService {
 	
 	@Autowired
 	MailConfig mailConfig;
+	
+	@Autowired
+	BCryptPasswordEncoder bCrypt;
 
 	public List<Funcionario> listarTudo() {
 		return repositorio.findAll();
@@ -40,7 +44,7 @@ public class FuncionarioService {
 		Usuario usuario = funcionario.getUsuario();
 		usuario.setRole("f");
 		verificarExiste(funcionario);
-
+		usuario.setSenha(bCrypt.encode(usuario.getSenha()));
 		serviceUsuario.saveUsuario(usuario);
 //		mailConfig.sendEmail(null, usuario.getEmail(), "Ativar Conta", "Ative sua conta no link abaixo:");
 		return repositorio.save(funcionario);
@@ -48,7 +52,6 @@ public class FuncionarioService {
 		
 	}
 
-	// Realizar tratamentos conforme exemplo no 'ProdutoService'
 	public Funcionario update(Funcionario funcionario, Integer id)
 			throws FuncionarioInexistenteException, FuncionarioExistenteException {
 		Optional<Funcionario> optional = repositorio.findById(id);
@@ -61,13 +64,11 @@ public class FuncionarioService {
 				verificarExiste(funcionario);
 				oldFuncionario.setNome(funcionario.getNome());
 			}
-			// CPF aqui (?)
 		}
 		if (funcionario.getTelefone() != null) {
 			if (!funcionario.getTelefone().equals("")) {
 				oldFuncionario.setTelefone(funcionario.getTelefone());
 			}
-			// Data de nascimento (?)
 		}
 		return repositorio.save(oldFuncionario);
 	}
@@ -84,6 +85,11 @@ public class FuncionarioService {
 
 	public void delete(Integer id) {
 		repositorio.deleteById(id);
+	}
+	
+	public Funcionario listarPorId(Integer id) {
+		Optional<Funcionario> optional = repositorio.findByIdFuncionario(id);
+		return optional.get();
 	}
 
 }

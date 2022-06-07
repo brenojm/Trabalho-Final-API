@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,13 +52,13 @@ public class EnderecoController {
     	return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Endereco> update(@RequestHeader(required=true,name="Authorization")String token,@RequestBody Endereco endereco, @PathVariable Integer id) {
-    	if(jwtUtil.getCredUser(token) == endereco.getUsuario().getIdUsuario()) {
-    		return new ResponseEntity<Endereco>(service.update(endereco, id), HttpStatus.OK);
+   /* @PutMapping("/{id}")
+    public ResponseEntity<Endereco> adicionar(@RequestHeader(required=true,name="Authorization")String token,@RequestBody EnderecoDTO enderecoDto, @PathVariable Integer id) throws UsuarioInexistenteException, EnderecoExistenteException, ClienteInexistenteException {
+    	if(jwtUtil.getCredUser(token) == enderecoDto.getIdUsuario()) {
+    		return new ResponseEntity<Endereco>(service.create(enderecoDto), HttpStatus.OK);
     	}
     	return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-    }
+    }*/
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@RequestHeader(required=true,name="Authorization")String token,@PathVariable Integer id) throws EnderecoInexistenteException {

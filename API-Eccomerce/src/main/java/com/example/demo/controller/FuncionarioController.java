@@ -81,7 +81,7 @@ public class FuncionarioController {
 		return new ResponseEntity<Funcionario>(HttpStatus.UNAUTHORIZED);
 	}
 
-	@PutMapping("/{cpf}")
+	@PutMapping("/{id}")
 	public ResponseEntity<Funcionario> update(@RequestHeader(required=true,name="Authorization")String token,@RequestBody Funcionario funcionario, @PathVariable Integer id)
 			throws FuncionarioInexistenteException, FuncionarioExistenteException {
 		if(jwtUtil.getCredentials(token).equals("f")) {

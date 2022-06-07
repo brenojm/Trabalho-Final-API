@@ -69,9 +69,9 @@ public class ProdutoService {
 	public Produto inserir(Produto produto, MultipartFile file) throws ProdutoExistenteException, CategoriaInexistenteException, IOException {
 		verificarExiste(produto);
 		
-//		produto.setCategoria(serviceCat.listarCategoria(produto.getCategoria().getId()));
-//				
-//		produto.setFuncionario(serviceFun.listarPorId(produto.getFuncionario().getIdFuncionario()));
+		produto.setCategoria(serviceCat.listarCategoria(produto.getCategoria().getId()));
+				
+		produto.setFuncionario(serviceFun.listarPorId(produto.getFuncionario().getIdFuncionario()));
 		
 		Produto savedProduto = repositorio.save(produto);
 		

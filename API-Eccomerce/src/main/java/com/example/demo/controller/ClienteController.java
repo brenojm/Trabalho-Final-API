@@ -34,25 +34,33 @@ public class ClienteController {
 	JWTUtil jwtUtil;
 
 	@GetMapping
-	public ResponseEntity<List<ClienteDTO>> findAll() {
-		List<Cliente> clientes = service.listarTudo();
-		List<ClienteDTO> clientesDTO = new ArrayList<ClienteDTO>();
+	public ResponseEntity<List<ClienteDTO>> findAll(
+			@RequestHeader(required = true, name = "Authorization") String token) {
+		if (jwtUtil.getCredentials(token).equals("f")) {
+			List<Cliente> clientes = service.listarTudo();
+			List<ClienteDTO> clientesDTO = new ArrayList<ClienteDTO>();
 
-		for (Cliente cliente : clientes) {
-			ClienteDTO clienteDTO = new ClienteDTO();
-			clienteDTO.setId(cliente.getId());
-			clienteDTO.setCpf(cliente.getCpf());
-			clienteDTO.setNome(cliente.getNome());
-			clientesDTO.add(clienteDTO);
+			for (Cliente cliente : clientes) {
+				ClienteDTO clienteDTO = new ClienteDTO();
+				clienteDTO.setId(cliente.getId());
+				clienteDTO.setCpf(cliente.getCpf());
+				clienteDTO.setNome(cliente.getNome());
+				clientesDTO.add(clienteDTO);
+			}
+			return new ResponseEntity<List<ClienteDTO>>(clientesDTO, HttpStatus.ACCEPTED);
 		}
-		return new ResponseEntity<List<ClienteDTO>>(clientesDTO, HttpStatus.ACCEPTED);
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 
-//	@GetMapping(value = "/{id}")
-//	public ResponseEntity<ClienteDTO> findById(@PathVariable Integer id) throws ClienteInexistenteException {
-//		return new ResponseEntity<ClienteDTO>(service.listarPorId(id), HttpStatus.OK);
-//	}
-//
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<ClienteDTO> findById(@RequestHeader(required = true, name = "Authorization") String token,
+			@PathVariable Integer id) throws ClienteInexistenteException {
+		if (jwtUtil.getCredUser(token) == id) {
+			return new ResponseEntity<ClienteDTO>(service.listarPorId(id), HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+	}
+
 	@PostMapping
 	public ResponseEntity<Cliente> insert(@RequestBody Cliente cliente) throws ClienteExistenteException {
 		return new ResponseEntity<Cliente>(service.create(cliente), HttpStatus.CREATED);
@@ -61,14 +69,15 @@ public class ClienteController {
 	@PutMapping("/{id}")
 	public ResponseEntity<Cliente> update(@RequestHeader(required = true, name = "Authorization") String token,
 			@RequestBody Cliente cliente, @PathVariable Integer id) throws ClienteInexistenteException {
-		if (jwtUtil.getCredUser(token) == cliente.getUsuario().getIdUsuario()) {
+		if (jwtUtil.getCredUser(token) == id) {
 			return new ResponseEntity<Cliente>(service.update(cliente, id), HttpStatus.OK);
 		}
 		return new ResponseEntity<Cliente>(HttpStatus.UNAUTHORIZED);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@RequestHeader(required = true, name = "Authorization") String token,@PathVariable Integer id) throws ClienteInexistenteException {
+	public ResponseEntity<?> delete(@RequestHeader(required = true, name = "Authorization") String token,
+			@PathVariable Integer id) throws ClienteInexistenteException {
 		Cliente cliente = service.getCliente(id);
 		if (jwtUtil.getCredUser(token) == cliente.getUsuario().getIdUsuario()) {
 			service.delete(id);

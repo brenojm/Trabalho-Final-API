@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.config.MailConfig;
@@ -25,6 +26,9 @@ public class ClienteService {
 	
 	@Autowired
 	MailConfig mailConfig;
+	
+	@Autowired
+	BCryptPasswordEncoder bCrypt;
 	
 	
 	public List<Cliente> listarTudo(){
@@ -58,9 +62,11 @@ public class ClienteService {
 	public Cliente create(Cliente cliente) throws ClienteExistenteException {
 		
 		Usuario usuario = cliente.getUsuario();
+		
 		usuario.setRole("c");
 
 		verificarClienteExiste(cliente);
+		usuario.setSenha(bCrypt.encode(usuario.getSenha()));
 		serviceUsuario.saveUsuario(usuario);
 //		mailConfig.sendEmail(null, usuario.getEmail(), "Ativar Conta", "Ative sua conta no link abaixo:");
 		return repositorio.save(cliente);

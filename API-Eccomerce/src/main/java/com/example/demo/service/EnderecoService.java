@@ -9,9 +9,10 @@ import org.springframework.stereotype.Service;
 import com.example.demo.exception.ClienteInexistenteException;
 import com.example.demo.exception.EnderecoExistenteException;
 import com.example.demo.exception.EnderecoInexistenteException;
-import com.example.demo.model.Cliente;
+import com.example.demo.exception.UsuarioInexistenteException;
 import com.example.demo.model.Endereco;
 import com.example.demo.model.EnderecoDTO;
+import com.example.demo.model.Usuario;
 import com.example.demo.model.ViaCepDTO;
 import com.example.demo.repository.EnderecoRepository;
 import com.example.demo.restClient.RestViaCep;
@@ -27,7 +28,7 @@ public class EnderecoService {
 	RestViaCep restViaCep;
 	
 	@Autowired
-	ClienteService serviceCli;
+	UsuarioService serviceUs;
 	
 	public List<Endereco> listarTudo(){
 		return repositorio.findAll();
@@ -41,7 +42,7 @@ public class EnderecoService {
 		return optional.get();
 	}
 	
-	public Endereco create(EnderecoDTO enderecoDto) throws EnderecoExistenteException, ClienteInexistenteException {
+	public Endereco create(EnderecoDTO enderecoDto) throws EnderecoExistenteException, ClienteInexistenteException, UsuarioInexistenteException {
 		ViaCepDTO enderecoNovo = restViaCep.getViaCEP(enderecoDto.getCep());
 		Endereco endereco = new Endereco();
 		endereco.setRua(enderecoNovo.getLogradouro());
@@ -51,14 +52,14 @@ public class EnderecoService {
 		endereco.setNumCasa(enderecoDto.getNumCasa());
 		endereco.setComplemento(enderecoDto.getComplemento());
 		endereco.setEstado(enderecoNovo.getUf());
-		//verificarEnderecoExiste(endereco);
-		endereco.setCliente(serviceCli.getCliente(enderecoDto.getCliente().getId())); 
+		verificarEnderecoExiste(endereco);
+		endereco.setUsuario(serviceUs.listarPorId(enderecoDto.getIdUsuario())); 
 		return repositorio.save(endereco);
 	}
 	
 	 public void verificarEnderecoExiste(Endereco endereco) throws EnderecoExistenteException {
-		 Cliente cliente = endereco.getCliente();
-		 if (cliente.getEnderecos().contains(endereco)) {
+		 Usuario usuario = endereco.getUsuario();
+		 if (usuario.getEnderecos().contains(endereco)) {
 			throw new EnderecoExistenteException("Esse Endereco ja esta cadastrado");
 		 }	
 	}
@@ -73,9 +74,8 @@ public class EnderecoService {
 			throw new EnderecoInexistenteException("Endereco não existe");
 		}
 		repositorio.deleteById(id);
-    	
-    	
     }
+    
 	
 
 }

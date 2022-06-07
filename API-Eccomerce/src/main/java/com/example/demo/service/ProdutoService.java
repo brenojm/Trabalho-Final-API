@@ -105,9 +105,6 @@ public class ProdutoService {
 		if (produto.getQuantidadeEstoque() != null) {
 			oldProduto.setQuantidadeEstoque(produto.getQuantidadeEstoque());
 		}
-		if (produto.getDataCadastro() != null) {
-			oldProduto.setDataCadastro(produto.getDataCadastro());
-		}
 
 		return repositorio.save(oldProduto);
 

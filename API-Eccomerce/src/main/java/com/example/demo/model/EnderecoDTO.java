@@ -1,14 +1,14 @@
 package com.example.demo.model;
 
 public class EnderecoDTO {
-	
+
 	private String cep;
-	
+
 	private String numCasa;
-	
+
 	private String complemento;
-	
-	private Cliente cliente;
+
+	private Integer idUsuario;
 
 	public String getCep() {
 		return cep;
@@ -33,27 +33,25 @@ public class EnderecoDTO {
 	public void setComplemento(String complemento) {
 		this.complemento = complemento;
 	}
-	
-	public Cliente getCliente() {
-		return cliente;
+
+	public Integer getIdUsuario() {
+		return idUsuario;
 	}
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public void setIdUsuario(Integer idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 
-	public EnderecoDTO(String cep, String numCasa, String complemento, Cliente cliente) {
+	public EnderecoDTO(String cep, String numCasa, String complemento, Integer idUsuario) {
 		super();
 		this.cep = cep;
 		this.numCasa = numCasa;
 		this.complemento = complemento;
-		this.cliente = cliente;
+		this.idUsuario = idUsuario;
 	}
 
 	public EnderecoDTO() {
 		super();
 	}
-	
-	
 
 }

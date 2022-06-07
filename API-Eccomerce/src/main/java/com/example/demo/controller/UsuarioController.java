@@ -8,17 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.config.MailConfig;
-import com.example.demo.exception.ClienteExistenteException;
 import com.example.demo.exception.UsuarioInexistenteException;
 import com.example.demo.model.Usuario;
-import com.example.demo.model.UsuarioDTO;
 import com.example.demo.service.UsuarioService;
 
 @RestController
@@ -27,9 +23,6 @@ public class UsuarioController {
 
 	@Autowired
 	UsuarioService service;
-	
-	@Autowired
-	MailConfig mailConfig;
 
 	@GetMapping
 	public ResponseEntity<List<Usuario>> findAll() {
@@ -39,12 +32,6 @@ public class UsuarioController {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Usuario> findById(@PathVariable Integer id) throws UsuarioInexistenteException {
 		return new ResponseEntity<Usuario>(service.listarPorId(id), HttpStatus.OK);
-	}
-
-	@PostMapping
-	public ResponseEntity<UsuarioDTO> insert(@RequestBody UsuarioDTO usuarioDTO) throws ClienteExistenteException {
-//		mailConfig.sendEmail(null, usuario.getEmail(), "Ativar Conta", "Ative sua conta no link abaixo:");
-		return new ResponseEntity<UsuarioDTO>(service.create(usuarioDTO), HttpStatus.CREATED);
 	}
 
 	@PutMapping("/{id}")

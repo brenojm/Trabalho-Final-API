@@ -18,6 +18,7 @@ import com.example.demo.exception.CategoriaExistenteException;
 import com.example.demo.exception.CategoriaInexistenteException;
 import com.example.demo.exception.ClienteExistenteException;
 import com.example.demo.exception.ClienteInexistenteException;
+import com.example.demo.exception.EmailNotException;
 import com.example.demo.exception.EnderecoExistenteException;
 import com.example.demo.exception.EnderecoInexistenteException;
 import com.example.demo.exception.FuncionarioExistenteException;
@@ -157,6 +158,13 @@ public class ExceptionController {
 
 	@ExceptionHandler(EnderecoInexistenteException.class)
 	public ResponseEntity<?> enderecoInexistenteException(EnderecoInexistenteException exception) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("erro", exception.getMessage());
+		return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(EmailNotException.class)
+	public ResponseEntity<?> emailNotException(EmailNotException exception) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("erro", exception.getMessage());
 		return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);

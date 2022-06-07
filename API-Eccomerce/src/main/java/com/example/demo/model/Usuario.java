@@ -1,9 +1,13 @@
 package com.example.demo.model;
 
+import java.util.Set;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -13,6 +17,7 @@ public class Usuario {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_usuario")
 	private Integer idUsuario;
 	
 	private String email;
@@ -30,13 +35,18 @@ public class Usuario {
 	@JsonIgnore
 	@OneToOne(mappedBy = "usuario")
 	private Funcionario funcionario;
+	
+	@OneToMany(mappedBy = "usuario")
+	private Set<Endereco> enderecos;
 
 	public Usuario() {
 		super();
 	}
 
-	public Usuario(Integer idUsuario, String email, String senha, String username, String role, Cliente cliente, 
-			Funcionario funcionario) {
+	
+
+	public Usuario(Integer idUsuario, String email, String senha, String username, String role, Cliente cliente,
+			Funcionario funcionario, Set<Endereco> enderecos) {
 		super();
 		this.idUsuario = idUsuario;
 		this.email = email;
@@ -45,7 +55,10 @@ public class Usuario {
 		this.role = role;
 		this.cliente = cliente;
 		this.funcionario = funcionario;
+		this.enderecos = enderecos;
 	}
+
+
 
 	public Integer getIdUsuario() {
 		return idUsuario;
@@ -101,6 +114,14 @@ public class Usuario {
 
 	public void setFuncionario(Funcionario funcionario) {
 		this.funcionario = funcionario;
+	}
+
+	public Set<Endereco> getEnderecos() {
+		return enderecos;
+	}
+
+	public void setEnderecos(Set<Endereco> enderecos) {
+		this.enderecos = enderecos;
 	}
 	
 	

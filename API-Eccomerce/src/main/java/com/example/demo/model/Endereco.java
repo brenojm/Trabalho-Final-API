@@ -36,12 +36,14 @@ public class Endereco {
 	
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "cliente_id",
-				referencedColumnName = "id")
-	private Cliente cliente;
+	@JoinColumn(name = "usuario_id",
+				referencedColumnName = "id_usuario")
+	private Usuario usuario;
 
-	public Endereco(Integer id, String cep, String rua, String bairro, String cidade, String numCasa,
-			String complemento, String estado, Cliente cliente) {
+	
+
+	public Endereco(Integer id, String cep, String rua, String bairro, @NotNull @Size(min = 3, max = 40) String cidade,
+			String numCasa, String complemento, String estado, Usuario usuario) {
 		super();
 		this.id = id;
 		this.cep = cep;
@@ -51,7 +53,7 @@ public class Endereco {
 		this.numCasa = numCasa;
 		this.complemento = complemento;
 		this.estado = estado;
-		this.cliente = cliente;
+		this.usuario = usuario;
 	}
 
 	public Endereco() {
@@ -122,11 +124,13 @@ public class Endereco {
 		this.estado = estado;
 	}
 
-	public Cliente getCliente() {
-		return cliente;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
+
+	
 }

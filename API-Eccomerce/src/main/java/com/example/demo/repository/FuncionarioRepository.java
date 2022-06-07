@@ -9,4 +9,6 @@ import com.example.demo.model.Funcionario;
 public interface FuncionarioRepository extends JpaRepository <Funcionario, Integer>{
 	
 	Optional<Funcionario> findByIdFuncionario(Integer idFuncionario);
+
+	Optional<Funcionario> findByCpf(String cpf);
 }

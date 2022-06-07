@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.exception.CategoriaExistenteException;
 import com.example.demo.exception.CategoriaInexistenteException;
 import com.example.demo.model.Categoria;
+import com.example.demo.security.JWTUtil;
 import com.example.demo.service.CategoriaService;
 
 @RestController
@@ -26,6 +28,9 @@ public class CategoriaController {
 
 	@Autowired
 	CategoriaService service;
+
+	@Autowired
+	JWTUtil jwtUtil;
 
 	@GetMapping
 	public ResponseEntity<List<Categoria>> getAll() {
@@ -40,20 +45,32 @@ public class CategoriaController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> insert(@RequestBody Categoria categoria) throws CategoriaExistenteException {
-		service.inserir(categoria);
-		return new ResponseEntity<>(HttpStatus.CREATED);
+	public ResponseEntity<?> insert(@RequestHeader(required = true, name = "Authorization") String token,
+			@RequestBody Categoria categoria) throws CategoriaExistenteException {
+		if (jwtUtil.getCredentials(token).equals("f")) {
+			service.inserir(categoria);
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 
 	@PutMapping("/{numero}")
-	public ResponseEntity<Categoria> update(@RequestBody Categoria categoria, @PathVariable Integer numero)
+	public ResponseEntity<Categoria> update(@RequestHeader(required = true, name = "Authorization") String token,
+			@RequestBody Categoria categoria, @PathVariable Integer numero)
 			throws CategoriaInexistenteException, CategoriaExistenteException {
-		return new ResponseEntity<Categoria>(service.atualizar(categoria, numero), HttpStatus.OK);
+		if (jwtUtil.getCredentials(token).equals("f")) {
+			return new ResponseEntity<Categoria>(service.atualizar(categoria, numero), HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 
 	@DeleteMapping("/{numero}")
-	public ResponseEntity<?> delete(@PathVariable Integer numero) throws CategoriaInexistenteException {
-		service.deletar(numero);
-		return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<?> delete(@RequestHeader(required = true, name = "Authorization") String token,
+			@PathVariable Integer numero) throws CategoriaInexistenteException {
+		if (jwtUtil.getCredentials(token).equals("f")) {
+			service.deletar(numero);
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 }

@@ -29,7 +29,7 @@ public class Funcionario{
 	@Column(name = "funcionario_nome")
 	private  String nome;
 	
-	@Column(name = "funcionario_cpf")
+	@Column(name = "funcionario_cpf", unique = true)
 	private String cpf;
 	
 	@Column(name = "funcionario_telefone")

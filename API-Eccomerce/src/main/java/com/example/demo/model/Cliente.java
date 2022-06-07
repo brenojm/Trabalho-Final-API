@@ -17,33 +17,29 @@ import javax.persistence.TemporalType;
 public class Cliente {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	private String nome;
 	private String cpf;
 	private String telefone;
-	
-    @Temporal(TemporalType.DATE)
-    private Date dataNascimento;
-    
-    @OneToMany(mappedBy = "cliente")
-    private Set<Pedido> pedidos;
-    
-    
-    @OneToOne
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
-    
-    @OneToMany(mappedBy = "cliente")
-    private Set<Endereco> enderecos;
-    
+
+	@Temporal(TemporalType.DATE)
+	private Date dataNascimento;
+
+	@OneToMany(mappedBy = "cliente")
+	private Set<Pedido> pedidos;
+
+	@OneToOne
+	@JoinColumn(name = "usuario_id")
+	private Usuario usuario;
+
 	public Cliente() {
 		super();
 	}
 
 	public Cliente(Integer id, String nome, String cpf, String telefone, Date dataNascimento, Set<Pedido> pedidos,
-			Usuario usuario, Set<Endereco> enderecos) {
+			Usuario usuario) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -52,7 +48,7 @@ public class Cliente {
 		this.dataNascimento = dataNascimento;
 		this.pedidos = pedidos;
 		this.usuario = usuario;
-		this.enderecos = enderecos;
+
 	}
 
 	public Integer getId() {
@@ -111,21 +107,7 @@ public class Cliente {
 		this.usuario = usuario;
 	}
 
-	public Set<Endereco> getEnderecos() {
-		return enderecos;
-	}
-
-	public void setEnderecos(Set<Endereco> enderecos) {
-		this.enderecos = enderecos;
-	}    
-	
-	public void adicionarEndereco(Endereco endereco) {
-		enderecos.add(endereco);
-	}
-	
 	public void adicionarPedido(Pedido pedido) {
 		pedidos.add(pedido);
 	}
 }
-
-

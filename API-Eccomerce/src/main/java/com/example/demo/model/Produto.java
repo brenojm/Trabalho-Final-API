@@ -32,7 +32,6 @@ public class Produto {
 	
 	@Temporal(TemporalType.DATE)
 	private Date dataCadastro;
-	// imagem
 	
 	@OneToMany(mappedBy = "produto")
 	private Set<PedidoProduto> pedidoProdutos;

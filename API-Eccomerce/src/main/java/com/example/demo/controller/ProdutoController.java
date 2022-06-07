@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -25,6 +26,7 @@ import com.example.demo.exception.ProdutoInexistenteException;
 import com.example.demo.model.Image;
 import com.example.demo.model.Produto;
 import com.example.demo.model.ProdutoDTO;
+import com.example.demo.security.JWTUtil;
 import com.example.demo.service.ImageService;
 import com.example.demo.service.ProdutoService;
 
@@ -34,9 +36,12 @@ public class ProdutoController {
 
 	@Autowired
 	ProdutoService service;
-	
+
 	@Autowired
 	ImageService serviceImage;
+
+	@Autowired
+	JWTUtil jwtUtil;
 
 	@GetMapping
 	public ResponseEntity<List<ProdutoDTO>> getAll() {
@@ -49,33 +54,46 @@ public class ProdutoController {
 	public ResponseEntity<ProdutoDTO> getOne(@PathVariable Integer numero) throws ProdutoInexistenteException {
 		return new ResponseEntity<ProdutoDTO>(service.listarProduto(numero), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/{id}/image")
-	public ResponseEntity<byte[]> getImage(@PathVariable Integer id){
+	public ResponseEntity<byte[]> getImage(@PathVariable Integer id) {
 		Image image = serviceImage.getImage(id);
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("content-type", image.getMimeType());
-		headers.add("content-length",String.valueOf(image.getData().length));
-		return new ResponseEntity<>(image.getData(),headers, HttpStatus.OK);
-		
+		headers.add("content-length", String.valueOf(image.getData().length));
+		return new ResponseEntity<>(image.getData(), headers, HttpStatus.OK);
+
 	}
 
 	@PostMapping
-	public ResponseEntity<Produto> insert(@RequestPart Produto produto,@RequestParam MultipartFile file) throws ProdutoExistenteException, CategoriaInexistenteException, IOException {
-		service.inserir(produto, file);
-		return new ResponseEntity<>(produto, HttpStatus.CREATED);
+	public ResponseEntity<Produto> insert(@RequestHeader(required = true, name = "Authorization") String token,
+			@RequestPart Produto produto, @RequestParam MultipartFile file)
+			throws ProdutoExistenteException, CategoriaInexistenteException, IOException {
+		if (jwtUtil.getCredentials(token).equals("f")) {
+			service.inserir(produto, file);
+			return new ResponseEntity<>(produto, HttpStatus.CREATED);
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 
 	@PutMapping("/{numero}")
-	public ResponseEntity<Produto> update(@RequestBody Produto produto, @PathVariable Integer numero)
+	public ResponseEntity<Produto> update(@RequestHeader(required = true, name = "Authorization") String token,
+			@RequestBody Produto produto, @PathVariable Integer numero)
 			throws ProdutoInexistenteException, ProdutoExistenteException {
-		return new ResponseEntity<Produto>(service.atualizar(produto, numero), HttpStatus.OK);
+		if (jwtUtil.getCredentials(token).equals("f")) {
+			return new ResponseEntity<Produto>(service.atualizar(produto, numero), HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 
 	@DeleteMapping("/{numero}")
-	public ResponseEntity<?> delete(@PathVariable Integer numero) throws ProdutoInexistenteException {
-		service.deletar(numero);
-		return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<?> delete(@RequestHeader(required = true, name = "Authorization") String token,
+			@PathVariable Integer numero) throws ProdutoInexistenteException {
+		if (jwtUtil.getCredentials(token).equals("f")) {
+			service.deletar(numero);
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 
 }

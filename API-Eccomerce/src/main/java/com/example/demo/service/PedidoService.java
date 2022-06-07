@@ -79,32 +79,15 @@ public class PedidoService {
 		
 	}
 
-	public Pedido atualizar(Pedido pedido, Integer id)
+	public Pedido atualizar(String status, Integer id)
 			throws PedidoInexistenteException, PedidoExistenteException {
 		Optional<Pedido> optional = repositorio.findById(id);
 		if (optional.isEmpty()) {
 			throw new PedidoInexistenteException("Pedido não cadastrado");
 		}
 		Pedido oldPedido = optional.get();
-		if (pedido.getNumPedido() != null) {
-				verificarExiste(pedido);
-				oldPedido.setNumPedido(pedido.getNumPedido());
-		}
-		
-		if (pedido.getValorTotalPed() != null) {
-			oldPedido.setValorTotalPed(pedido.getValorTotalPed());
-		}
-		
-		if (pedido.getDataPedido() != null) {
-			oldPedido.setDataPedido(pedido.getDataPedido());
-		}
-		
-		if(pedido.getDataEntrega() != null) {
-			oldPedido.setDataEntrega(pedido.getDataEntrega());
-		}
-		
-		if(pedido.getStatus() != null) {
-			oldPedido.setStatus(pedido.getStatus());
+		if(oldPedido.getStatus() != null) {
+			oldPedido.setStatus(status);
 		}
 		return repositorio.save(oldPedido);
 
@@ -116,5 +99,10 @@ public class PedidoService {
 			throw new PedidoInexistenteException("Pedido não cadastrado");
 		}
 		repositorio.deleteById(id);
+	}
+	
+	public Integer getUserId(Integer id) {
+		Optional<Pedido> optional = repositorio.findById(id);
+		return optional.get().getCliente().getUsuario().getIdUsuario();
 	}
 }

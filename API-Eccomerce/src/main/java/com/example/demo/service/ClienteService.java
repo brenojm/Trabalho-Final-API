@@ -6,10 +6,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.config.MailConfig;
 import com.example.demo.exception.ClienteExistenteException;
 import com.example.demo.exception.ClienteInexistenteException;
 import com.example.demo.model.Cliente;
 import com.example.demo.model.ClienteDTO;
+import com.example.demo.model.Usuario;
 import com.example.demo.repository.ClienteRepository;
 
 @Service
@@ -17,6 +19,12 @@ public class ClienteService {
 
 	@Autowired
 	ClienteRepository repositorio;
+	
+	@Autowired
+	UsuarioService serviceUsuario;
+	
+	@Autowired
+	MailConfig mailConfig;
 	
 	
 	public List<Cliente> listarTudo(){
@@ -34,6 +42,11 @@ public class ClienteService {
 		return clienteDTO;
 	}
 	
+	public Cliente listarPorCpf(String cpf) {
+		Optional<Cliente> optional = repositorio.findByCpf(cpf);
+		return optional.get();
+	}
+	
 	public Cliente getCliente(Integer id) throws ClienteInexistenteException {
 		Optional<Cliente> optional = repositorio.findById(id);		
 		if (optional.isEmpty()) {
@@ -43,21 +56,42 @@ public class ClienteService {
 	}
 	
 	public Cliente create(Cliente cliente) throws ClienteExistenteException {
-		verificarClienteExiste(cliente);
 		
+		Usuario usuario = cliente.getUsuario();
+		usuario.setRole("c");
+
+		verificarClienteExiste(cliente);
+		serviceUsuario.saveUsuario(usuario);
+//		mailConfig.sendEmail(null, usuario.getEmail(), "Ativar Conta", "Ative sua conta no link abaixo:");
 		return repositorio.save(cliente);
 	}
 	
 	public void verificarClienteExiste(Cliente cliente) throws ClienteExistenteException {
 		Optional<Cliente> optional = repositorio.findByCpf(cliente.getCpf());
 		if (optional.isPresent()) {
-			throw new ClienteExistenteException("Esse cliente ja existe");
+			throw new ClienteExistenteException("Esse cliente já existe");
 		}	
 	}
 	
-    public Cliente update(Cliente cliente, Integer id) {
-    	cliente.setId(id);
-    	return repositorio.save(cliente);
+    public Cliente update(Cliente cliente, Integer id) throws ClienteInexistenteException {
+    	Optional<Cliente> optional = repositorio.findById(id);
+		if (optional.isEmpty()) {
+			throw new ClienteInexistenteException("Cliente não existe");
+		}
+		Cliente oldCliente = optional.get();
+		if (cliente.getNome() != null) {
+			if(!cliente.getNome().equals(""))
+				
+				oldCliente.setNome(cliente.getNome());
+		}
+		
+		if (cliente.getTelefone() != null) {
+			if(!cliente.getTelefone().equals("")) {
+				oldCliente.setTelefone(cliente.getTelefone());
+			}
+		}
+
+		return repositorio.save(oldCliente);
     }
     public void delete(Integer id) throws ClienteInexistenteException {
     	Optional<Cliente> optional = repositorio.findById(id);

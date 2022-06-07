@@ -6,9 +6,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.config.MailConfig;
 import com.example.demo.exception.FuncionarioExistenteException;
 import com.example.demo.exception.FuncionarioInexistenteException;
+import com.example.demo.exception.UsuarioInexistenteException;
 import com.example.demo.model.Funcionario;
+import com.example.demo.model.Usuario;
 import com.example.demo.repository.FuncionarioRepository;
 
 @Service
@@ -16,20 +19,33 @@ public class FuncionarioService {
 
 	@Autowired
 	FuncionarioRepository repositorio;
+	
+	@Autowired
+	UsuarioService serviceUsuario;
+	
+	@Autowired
+	MailConfig mailConfig;
 
 	public List<Funcionario> listarTudo() {
 		return repositorio.findAll();
 	}
 
-	public Funcionario listarPorId(Integer id) {
-		System.out.println(id);
-		Optional<Funcionario> funcionario = repositorio.findByIdFuncionario(id);
+	public Funcionario listarPorCpf(String cpf) {
+		Optional<Funcionario> funcionario = repositorio.findByCpf(cpf);
 		return funcionario.get();
 	}
 
-	public Funcionario create(Funcionario funcionario) throws FuncionarioExistenteException {
+	public Funcionario create(Funcionario funcionario) throws FuncionarioExistenteException, UsuarioInexistenteException {
+		
+		Usuario usuario = funcionario.getUsuario();
+		usuario.setRole("f");
 		verificarExiste(funcionario);
+
+		serviceUsuario.saveUsuario(usuario);
+//		mailConfig.sendEmail(null, usuario.getEmail(), "Ativar Conta", "Ative sua conta no link abaixo:");
 		return repositorio.save(funcionario);
+		
+		
 	}
 
 	// Realizar tratamentos conforme exemplo no 'ProdutoService'
@@ -57,12 +73,12 @@ public class FuncionarioService {
 	}
 	
 
+
 	private void verificarExiste(Funcionario funcionario) throws FuncionarioExistenteException {
 		Optional<Funcionario> optional = repositorio.findByIdFuncionario(funcionario.getIdFuncionario());
 		if (optional.isPresent()) {
 			throw new FuncionarioExistenteException("Funcionario já existe");
 		}
-		repositorio.save(funcionario);
 
 	}
 

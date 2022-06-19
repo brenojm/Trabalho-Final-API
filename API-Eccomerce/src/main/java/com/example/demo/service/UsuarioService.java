@@ -43,6 +43,15 @@ public  class UsuarioService {
 		return optional.get();
 	}
 	
+	public Usuario getUsuarioPorToken(String usernameToken) {
+		Optional<Usuario> optional = repositorio.findByEmail(usernameToken.split("-")[1]);
+		if (optional.isEmpty()) {
+			return null;
+		}
+		return optional.get();
+	}
+	
+	
 	public void verificarClienteExiste(Usuario usuario) throws UsuarioExistenteException {
 		Optional<Usuario> optional = repositorio.findById(usuario.getIdUsuario());
 		if (optional.isPresent()) {

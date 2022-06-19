@@ -66,10 +66,14 @@ public class ClienteService {
 		usuario.setRole("c");
 
 		verificarClienteExiste(cliente);
+		
 		usuario.setSenha(bCrypt.encode(usuario.getSenha()));
 		serviceUsuario.saveUsuario(usuario);
 //		mailConfig.sendEmail(null, usuario.getEmail(), "Ativar Conta", "Ative sua conta no link abaixo:");
-		return repositorio.save(cliente);
+		repositorio.save(cliente);
+		usuario.setCliente(cliente);
+		serviceUsuario.saveUsuario(usuario);
+		return cliente;
 	}
 	
 	public void verificarClienteExiste(Cliente cliente) throws ClienteExistenteException {

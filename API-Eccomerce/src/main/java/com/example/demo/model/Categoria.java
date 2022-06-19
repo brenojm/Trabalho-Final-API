@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,7 +23,7 @@ public class Categoria {
 	private String descricao;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "categoria")
+	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
 	private Set<Produto> produtos;
 
 	public Categoria() {

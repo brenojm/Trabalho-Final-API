@@ -35,6 +35,7 @@ public class JWTUtil {
 
 	public static Authentication getAuthentication(HttpServletRequest request) {
 		String token = request.getHeader("Authorization");
+		System.out.println(token);
 		if (token != null) {
 			String user = Jwts.parser().setSigningKey("serratec".getBytes()).parseClaimsJws(token.replace("Bearer", ""))
 					.getBody().getSubject();
@@ -51,7 +52,7 @@ public class JWTUtil {
 			String user = Jwts.parser().setSigningKey("serratec".getBytes()).parseClaimsJws(token.replace("Bearer", ""))
 					.getBody().getSubject();
 			if (user != null) {
-				return serviceUsuario.getUsuarioPorEmail(user).getRole();
+				return serviceUsuario.getUsuarioPorToken(user).getRole();
 			}
 		}
 	return null;
@@ -64,7 +65,7 @@ public class JWTUtil {
 			String user = Jwts.parser().setSigningKey("serratec".getBytes()).parseClaimsJws(token.replace("Bearer", ""))
 					.getBody().getSubject();
 			if (user != null) {
-				return serviceUsuario.getUsuarioPorEmail(user).getIdUsuario();
+				return serviceUsuario.getUsuarioPorToken(user).getIdUsuario();
 			}
 		}
 	return null;

@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,14 +30,14 @@ public class Usuario {
 	private String role;
 	
 	@JsonIgnore
-	@OneToOne(mappedBy = "usuario")
+	@OneToOne(cascade = CascadeType.ALL)
 	private Cliente cliente;
 	
 	@JsonIgnore
-	@OneToOne(mappedBy = "usuario")
+	@OneToOne(cascade = CascadeType.ALL)
 	private Funcionario funcionario;
 	
-	@OneToMany(mappedBy = "usuario")
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 	private Set<Endereco> enderecos;
 
 	public Usuario() {

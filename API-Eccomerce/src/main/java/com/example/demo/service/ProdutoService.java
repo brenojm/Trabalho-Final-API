@@ -39,6 +39,7 @@ public class ProdutoService {
 			ProdutoDTO produtoDTO = new ProdutoDTO();
 			produtoDTO.setId(produto.getId());
 			produtoDTO.setNome(produto.getNome());
+			produtoDTO.setDescricao(produto.getDescricao());
 			produtoDTO.setPreco(produto.getPreco());
 			produtoDTO.setUrl("http://localhost:8080/produto/" + produtoDTO.getId().toString() + "/image");
 			produtosDTO.add(produtoDTO);
@@ -54,6 +55,7 @@ public class ProdutoService {
 		ProdutoDTO produtoDTO = new ProdutoDTO();
 		produtoDTO.setId(optional.get().getId());
 		produtoDTO.setNome(optional.get().getNome());
+		produtoDTO.setDescricao(optional.get().getDescricao());
 		produtoDTO.setPreco(optional.get().getPreco());
 		produtoDTO.setUrl(serviceIma.createUrl(optional.get().getId()));
 		return produtoDTO;

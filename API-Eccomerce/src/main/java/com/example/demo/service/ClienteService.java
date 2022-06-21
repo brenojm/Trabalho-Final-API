@@ -62,15 +62,16 @@ public class ClienteService {
 	public Cliente create(Cliente cliente) throws ClienteExistenteException {
 		
 		Usuario usuario = cliente.getUsuario();
-		
 		usuario.setRole("c");
 
 		verificarClienteExiste(cliente);
 		
 		usuario.setSenha(bCrypt.encode(usuario.getSenha()));
 		serviceUsuario.saveUsuario(usuario);
-//		mailConfig.sendEmail(null, usuario.getEmail(), "Ativar Conta", "Ative sua conta no link abaixo:");
+
 		repositorio.save(cliente);
+		
+		
 		usuario.setCliente(cliente);
 		serviceUsuario.saveUsuario(usuario);
 		return cliente;

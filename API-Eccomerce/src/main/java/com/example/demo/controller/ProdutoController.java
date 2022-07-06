@@ -69,11 +69,9 @@ public class ProdutoController {
 	public ResponseEntity<Produto> insert(@RequestHeader(required = true, name = "Authorization") String token,
 			@RequestPart Produto produto, @RequestParam MultipartFile file)
 			throws ProdutoExistenteException, CategoriaInexistenteException, IOException {
-		if (jwtUtil.getCredentials(token).equals("f")) {
 			service.inserir(produto, file);
 			return new ResponseEntity<>(produto, HttpStatus.CREATED);
-		}
-		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		
 	}
 
 	@PutMapping("/{numero}")

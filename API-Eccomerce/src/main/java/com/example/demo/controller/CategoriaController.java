@@ -47,11 +47,9 @@ public class CategoriaController {
 	@PostMapping
 	public ResponseEntity<?> insert(@RequestHeader(required = true, name = "Authorization") String token,
 			@RequestBody Categoria categoria) throws CategoriaExistenteException {
-		if (jwtUtil.getCredentials(token).equals("f")) {
 			service.inserir(categoria);
 			return new ResponseEntity<>(HttpStatus.CREATED);
-		}
-		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		
 	}
 
 	@PutMapping("/{numero}")

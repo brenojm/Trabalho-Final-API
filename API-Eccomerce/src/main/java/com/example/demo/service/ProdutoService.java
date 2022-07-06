@@ -41,7 +41,7 @@ public class ProdutoService {
 			produtoDTO.setNome(produto.getNome());
 			produtoDTO.setDescricao(produto.getDescricao());
 			produtoDTO.setPreco(produto.getPreco());
-			produtoDTO.setUrl("http://localhost:8080/produto/" + produtoDTO.getId().toString() + "/image");
+			produtoDTO.setUrl("https://api-cdelivery.herokuapp.com/produto/" + produtoDTO.getId().toString() + "/image");
 			produtosDTO.add(produtoDTO);
 		}
 		return produtosDTO;

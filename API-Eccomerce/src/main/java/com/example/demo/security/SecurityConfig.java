@@ -5,7 +5,6 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -31,13 +30,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	JWTUtil jwtUtil;
 
-	private static String[] AUTH_WHITELIST = { "/login", "/cliente", "/produto", "/categoria" };
+	private static String[] AUTH_WHITELIST = { "/**/**","/login","/swagger-ui/**", "/v3/api-docs/**", "/produto/**", "/produto", "categoria", "/categoria/**", "/cliente", "cliente/**" };
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
 		http.authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll()
-				.antMatchers(HttpMethod.GET, "/swagger-ui/**", "/v3/api-docs/**", "/produto/**", "/produto", "categoria", "/categoria/**", "/cliente", "cliente/**").permitAll().anyRequest()
+				.anyRequest()
 				.authenticated();
 		http.addFilterBefore(new JWTAuthenticationFilter(authenticationManager(), jwtUtil),
 				UsernamePasswordAuthenticationFilter.class);

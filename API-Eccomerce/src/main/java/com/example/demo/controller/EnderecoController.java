@@ -45,11 +45,10 @@ public class EnderecoController {
 //    }
 
     @PostMapping
-    public ResponseEntity<Endereco> insert(@RequestHeader(required=true,name="Authorization")String token,@RequestBody @Valid EnderecoDTO endereco) throws EnderecoExistenteException, ClienteInexistenteException, UsuarioInexistenteException {
-    	if(jwtUtil.getCredUser(token) == endereco.getIdUsuario()) {
+    public ResponseEntity<Endereco> insert(@RequestBody @Valid EnderecoDTO endereco) throws EnderecoExistenteException, ClienteInexistenteException, UsuarioInexistenteException {
+    
     		return new ResponseEntity<Endereco>(service.create(endereco), HttpStatus.CREATED);
-    	}
-    	return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+  
     }
 
    /* @PutMapping("/{id}")

@@ -66,8 +66,7 @@ public class ProdutoController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Produto> insert(@RequestHeader(required = true, name = "Authorization") String token,
-			@RequestPart Produto produto, @RequestParam MultipartFile file)
+	public ResponseEntity<Produto> insert(@RequestPart Produto produto, @RequestParam MultipartFile file)
 			throws ProdutoExistenteException, CategoriaInexistenteException, IOException {
 			service.inserir(produto, file);
 			return new ResponseEntity<>(produto, HttpStatus.CREATED);

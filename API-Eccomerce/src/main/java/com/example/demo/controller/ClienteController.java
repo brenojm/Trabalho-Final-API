@@ -53,12 +53,8 @@ public class ClienteController {
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<ClienteDTO> findById(@RequestHeader(required = true, name = "Authorization") String token,
-			@PathVariable Integer id) throws ClienteInexistenteException {
-		if (jwtUtil.getCredUser(token) == id) {
+	public ResponseEntity<ClienteDTO> findById(@PathVariable Integer id) throws ClienteInexistenteException {
 			return new ResponseEntity<ClienteDTO>(service.listarPorId(id), HttpStatus.OK);
-		}
-		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 
 	@PostMapping

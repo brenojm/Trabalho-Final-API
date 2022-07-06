@@ -45,8 +45,7 @@ public class CategoriaController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> insert(@RequestHeader(required = true, name = "Authorization") String token,
-			@RequestBody Categoria categoria) throws CategoriaExistenteException {
+	public ResponseEntity<?> insert(@RequestBody Categoria categoria) throws CategoriaExistenteException {
 			service.inserir(categoria);
 			return new ResponseEntity<>(HttpStatus.CREATED);
 		

@@ -34,8 +34,7 @@ public class ClienteController {
 	JWTUtil jwtUtil;
 
 	@GetMapping
-	public ResponseEntity<List<Cliente>> findAll(
-			@RequestHeader(required = true, name = "Authorization") String token) {
+	public ResponseEntity<List<Cliente>> findAll() {
 
 			List<Cliente> clientes = service.listarTudo();
 			List<ClienteDTO> clientesDTO = new ArrayList<ClienteDTO>();

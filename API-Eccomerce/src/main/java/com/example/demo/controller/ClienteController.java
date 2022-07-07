@@ -34,9 +34,9 @@ public class ClienteController {
 	JWTUtil jwtUtil;
 
 	@GetMapping
-	public ResponseEntity<List<ClienteDTO>> findAll(
+	public ResponseEntity<List<Cliente>> findAll(
 			@RequestHeader(required = true, name = "Authorization") String token) {
-		if (jwtUtil.getCredentials(token).equals("f")) {
+
 			List<Cliente> clientes = service.listarTudo();
 			List<ClienteDTO> clientesDTO = new ArrayList<ClienteDTO>();
 
@@ -47,9 +47,8 @@ public class ClienteController {
 				clienteDTO.setNome(cliente.getNome());
 				clientesDTO.add(clienteDTO);
 			}
-			return new ResponseEntity<List<ClienteDTO>>(clientesDTO, HttpStatus.ACCEPTED);
-		}
-		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<List<Cliente>>(clientes, HttpStatus.ACCEPTED);
+
 	}
 
 	@GetMapping(value = "/{id}")

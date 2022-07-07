@@ -51,8 +51,8 @@ public class ClienteController {
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<ClienteDTO> findById(@PathVariable Integer id) throws ClienteInexistenteException {
-			return new ResponseEntity<ClienteDTO>(service.listarPorId(id), HttpStatus.OK);
+	public ResponseEntity<Cliente> findById(@PathVariable Integer id) throws ClienteInexistenteException {
+			return new ResponseEntity<Cliente>(service.listarPorId(id), HttpStatus.OK);
 	}
 
 	@PostMapping

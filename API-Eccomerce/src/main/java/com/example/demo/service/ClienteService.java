@@ -35,7 +35,7 @@ public class ClienteService {
 		return repositorio.findAll();
 	}
 	
-	public ClienteDTO listarPorId(Integer id) throws ClienteInexistenteException{
+	public Cliente listarPorId(Integer id) throws ClienteInexistenteException{
 		Optional<Cliente> optional = repositorio.findById(id);		
 		if (optional.isEmpty()) {
 			throw new ClienteInexistenteException("Cliente inexistente");
@@ -43,7 +43,7 @@ public class ClienteService {
 		ClienteDTO clienteDTO = new ClienteDTO();
 		clienteDTO.setNome(optional.get().getNome());
 		clienteDTO.setCpf(optional.get().getCpf());
-		return clienteDTO;
+		return optional.get();
 	}
 	
 	public Cliente listarPorCpf(String cpf) {
